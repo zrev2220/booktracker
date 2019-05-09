@@ -27,3 +27,8 @@ urlpatterns = [
     # path('people', ),
     # path('people/add', ),
 ]
+
+handler400 = "booktracker.views.error400"
+handler403 = "booktracker.views.error403"
+handler404 = "booktracker.views.error404"
+handler500 = "booktracker.views.error500"
