@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>It works! Welcome to BookTracker!</h1>
+    <a href="/add" class="btn btn-outline-success py-1 px-2">Add Book</a>
+    <br>
+    <br>
+
+    <form action="/" method="post">
+        <h3>Search</h3>
+        <div class="form-row">
+            <div class="col-md-3 mb-2">
+                <select class="form-control">
+                    {% for option, opt_desc in search_options.items %}
+                        <option value="{{ option }}">{{ opt_desc }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-2">
+                <select class="form-control">
+                    {% for option, opt_desc in contain_options.items %}
+                        <option value="{{ option }}">{{ opt_desc }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-2">
+                <input name="query-1" class="form-control">
+            </div>
+        </div>
+    </form>
 {% endblock %}
