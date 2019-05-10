@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static "scripts/search.js" %}"></script>
+{% endblock %}
 
 {% block content %}
     <a href="/add" class="btn btn-outline-success py-1 px-2">Add Book</a>
@@ -26,5 +31,49 @@
                 <input name="query-1" class="form-control">
             </div>
         </div>
+        <div id="moreFilters" class="collapse">
+            <div class="form-row">
+                <div class="col-md-3 mb-2">
+                    <select class="form-control">
+                        {% for option, opt_desc in search_options.items %}
+                            <option value="{{ option }}">{{ opt_desc }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <select class="form-control">
+                        {% for option, opt_desc in contain_options.items %}
+                            <option value="{{ option }}">{{ opt_desc }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <input name="query-2" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-3 mb-2">
+                    <select class="form-control">
+                        {% for option, opt_desc in search_options.items %}
+                            <option value="{{ option }}">{{ opt_desc }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <select class="form-control">
+                        {% for option, opt_desc in contain_options.items %}
+                            <option value="{{ option }}">{{ opt_desc }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <input name="query-3" class="form-control">
+                </div>
+            </div>
+        </div>
+        <a id="moreFiltersBtn" class="btn btn-secondary" data-toggle="collapse" href="#moreFilters" role="button" aria-expanded="false" aria-controls="moreFilters">
+            <i class="fas fa-plus"></i> More filters
+        </a>
+        <input type="hidden" id="moreFiltersHidden" name="more" value="False">
     </form>
 {% endblock %}
