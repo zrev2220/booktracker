@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ status_code }} - {{ errtitle }}</h1>
-    <p>{{ errmsg }}</p>
+    <div class="m-4 text-sm-center">
+        <h1>{{ status_code }} - {{ errtitle }}</h1>
+        <p>{{ errmsg }}</p>
+    </div>
 {% endblock %}

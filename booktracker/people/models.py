@@ -6,3 +6,6 @@ class Person(models.Model):
     last_name = models.CharField(max_length=1023)
     phone = models.CharField(max_length=15)
     email = models.CharField(max_length=127, blank=True)
+
+    def __str__(self):
+        return " ".join((self.first_name, self.last_name))
