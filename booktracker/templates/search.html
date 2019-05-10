@@ -10,7 +10,7 @@
     <br>
     <br>
 
-    <form action="/" method="post">
+    <form id="searchForm" action="/" method="post">
         <h3>Search</h3>
         <div class="form-row">
             <div class="col-md-3 mb-2">
@@ -71,9 +71,15 @@
                 </div>
             </div>
         </div>
-        <a id="moreFiltersBtn" class="btn btn-secondary" data-toggle="collapse" href="#moreFilters" role="button" aria-expanded="false" aria-controls="moreFilters">
-            <i class="fas fa-plus"></i> More filters
-        </a>
-        <input type="hidden" id="moreFiltersHidden" name="more" value="False">
+        <div class="d-flex flex-column maxw-max-content">
+            <a id="moreFiltersBtn" class="btn btn-secondary mb-2" data-toggle="collapse" href="#moreFilters" role="button" aria-expanded="false" aria-controls="moreFilters">
+                <i class="fas fa-plus"></i> More filters
+            </a>
+            <input type="hidden" id="moreFiltersHidden" name="more" value="False">
+            <br>
+            <a class="btn btn-primary w-100" href="javascript:void(0);" onclick="$('#searchForm').submit();">
+                <i class="fas fa-search"></i> Search
+            </a>
+        </div>
     </form>
 {% endblock %}
