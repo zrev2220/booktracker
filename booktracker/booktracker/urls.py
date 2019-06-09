@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from books.views import HomePageView
+from books.views import HomePageView, search
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='books-search'),
+    path('search', search, name='books-search-ajax'),
     # path('logout', ),
     # path('details/<id>', ),
     # path('edit/<id>', ),

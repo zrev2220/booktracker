@@ -1,85 +1,110 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block styles %}
+  <link rel="stylesheet" href="{% static "stylesheets/search.css" %}">
+{% endblock %}
+
 {% block scripts %}
-    <script src="{% static "scripts/search.js" %}"></script>
+  <script src="{% static "scripts/search.js" %}"></script>
 {% endblock %}
 
 {% block content %}
-    <a href="/add" class="btn btn-outline-success py-1 px-2">Add Book</a>
-    <br>
-    <br>
+  <a href="/add" class="btn btn-outline-success py-1 px-2">Add Book</a>
+  <br>
+  <br>
 
-    <form id="searchForm" action="/" method="post">
-        <h3>Search</h3>
-        <div class="form-row">
-            <div class="col-md-3 mb-2">
-                <select class="form-control">
-                    {% for option, opt_desc in search_options.items %}
-                        <option value="{{ option }}">{{ opt_desc }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-3 mb-2">
-                <select class="form-control">
-                    {% for option, opt_desc in contain_options.items %}
-                        <option value="{{ option }}">{{ opt_desc }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-6 mb-2">
-                <input name="query-1" class="form-control">
-            </div>
-        </div>
-        <div id="moreFilters" class="collapse">
-            <div class="form-row">
-                <div class="col-md-3 mb-2">
-                    <select class="form-control">
-                        {% for option, opt_desc in search_options.items %}
-                            <option value="{{ option }}">{{ opt_desc }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3 mb-2">
-                    <select class="form-control">
-                        {% for option, opt_desc in contain_options.items %}
-                            <option value="{{ option }}">{{ opt_desc }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <input name="query-2" class="form-control">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-3 mb-2">
-                    <select class="form-control">
-                        {% for option, opt_desc in search_options.items %}
-                            <option value="{{ option }}">{{ opt_desc }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3 mb-2">
-                    <select class="form-control">
-                        {% for option, opt_desc in contain_options.items %}
-                            <option value="{{ option }}">{{ opt_desc }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <input name="query-3" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="d-flex flex-column maxw-max-content">
-            <a id="moreFiltersBtn" class="btn btn-secondary mb-2" data-toggle="collapse" href="#moreFilters" role="button" aria-expanded="false" aria-controls="moreFilters">
-                <i class="fas fa-plus"></i> More filters
-            </a>
-            <input type="hidden" id="moreFiltersHidden" name="more" value="False">
-            <br>
-            <a class="btn btn-primary w-100" href="javascript:void(0);" onclick="$('#searchForm').submit();">
-                <i class="fas fa-search"></i> Search
-            </a>
-        </div>
-    </form>
+  <form id="searchForm" action="/" method="post">{% csrf_token %}
+    <h3>Search</h3>
+    <div class="form-row mb-2 filter-toggles">
+      <input type="hidden" id="activeFilters" name="activeFilters" value='["title"]'>
+      {% for key, values in filter_options.items %}
+        <button class="btn btn-outline-primary mb-2 filter-btn" type="button" data-filter="{{ key }}" data-toggle="collapse"
+                data-target="#{{ key }}Div" aria-expanded="true" aria-controls="{{ key }}Div">
+          {{ values.desc }}
+        </button>
+      {% endfor %}
+    </div>
+{#  TODO: Generalize these components to allow {% for %}-ing#}
+    <div class="form-row collapse" id="titleDiv">
+      <div class="col-md-3 col-lg-2 mb-2">
+        <label for="title" class="text-md-center mb-0">Title</label>
+      </div>
+      <div class="col-md-2 mb-2">
+        <select name="title-match" class="form-control">
+          {% for key, values in match_options.items %}
+            <option value="{{ key }}">
+              {{ values.desc }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-7 col-lg-8 mb-2">
+        <input id="title" name="title" class="form-control">
+      </div>
+    </div>
+    <div class="form-row collapse" id="author-lastDiv">
+      <div class="col-md-3 col-lg-2 mb-2">
+        <label for="author-last" class="text-md-center mb-0">Author (Last)</label>
+      </div>
+      <div class="col-md-2 mb-2">
+        <select name="author-last-match" class="form-control">
+          {% for key, values in match_options.items %}
+            <option value="{{ key }}">
+              {{ values.desc }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-7 col-lg-8 mb-2">
+        <input id="author-last" name="author-last" class="form-control">
+      </div>
+    </div>
+    <div class="form-row collapse" id="author-firstDiv">
+      <div class="col-md-3 col-lg-2 mb-2">
+        <label for="author-first" class="text-md-center mb-0">Author (First)</label>
+      </div>
+      <div class="col-md-2 mb-2">
+        <select name="author-first-match" class="form-control">
+          {% for key, values in match_options.items %}
+            <option value="{{ key }}">
+              {{ values.desc }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-7 col-lg-8 mb-2">
+        <input id="author-first" name="author-first" class="form-control">
+      </div>
+    </div>
+    <div class="form-row collapse" id="author-wholeDiv">
+      <div class="col-md-3 col-lg-2 mb-2">
+        <label for="author-whole" class="text-md-center mb-0">Author (First+Last)</label>
+      </div>
+      <div class="col-md-2 mb-2">
+        <select name="author-whole-match" class="form-control">
+          {% for key, values in match_options.items %}
+            <option value="{{ key }}">
+              {{ values.desc }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-7 col-lg-8 mb-2">
+        <input id="author-whole" name="author-whole" class="form-control">
+      </div>
+    </div>
+    <div id="andOrDiv" class="form-row collapse">
+      <div class="col-md-3 mb-2">
+        <a id="andOrBtn" class="btn btn-outline-secondary py-1 px-2 btn-nohoverfill" href="javascript:void(0);"
+           onclick="toggleAndOr()">Results match ALL filters</a>
+        <input type="hidden" id="andOrHidden" name="andOr" value="and">
+      </div>
+    </div>
+    <div class="form-row d-flex flex-column maxw-max-content">
+      <button id="searchBtn" class="btn btn-primary w-100 mt-4">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </div>
+  </form>
 {% endblock %}
