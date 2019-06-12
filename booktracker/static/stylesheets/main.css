@@ -1,9 +1,9 @@
 .maxw-max-content {
-    max-width: max-content;
+  max-width: max-content;
 }
 
 .btn-nohoverfill:hover {
-    color: inherit;
-    background-color: inherit;
-    border-color: inherit;
+  color: inherit;
+  background-color: inherit;
+  border-color: inherit;
 }
