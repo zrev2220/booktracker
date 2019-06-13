@@ -1,5 +1,6 @@
 from django.views.generic.base import TemplateView
 from django.db.models import Q, F, Func, Value
+from django.http import JsonResponse
 from .models import Book
 import json
 
@@ -56,26 +57,40 @@ class HomePageView(TemplateView):
 # AJAX search endpoint
 # Performs search given certain filters and returns results in JSON
 # TODO: try to hack this with Postman and harden it
+# TODO: add paging
 def search(request):
     # get selected filters
     filters = set(json.loads(request.POST['activeFilters']))
     combine = (lambda p, q: p & q) if request.POST['andOr'] == "and" else (lambda p, q: p | q)
 
     # for each filter, create Q object
+    empty = True
     query = Q()
     for f in filters:
-        value = request.POST[f]
+        value = request.POST[f].strip()
+        if value == "":
+            continue
+        empty = False
         match_policy = MATCH_DICT[request.POST[f"{f}-match"]]["op"]
         kwargs = {f"{FILTER_DICT[f]['op']}__{match_policy}": value}
         query = combine(query, Q(**kwargs))
 
-    # from https://stackoverflow.com/a/45137351/6548555
-    results = Book.objects
-    if "author-whole" in filters:
-        # add first+last field
-        results = results.annotate(author_whole_name=Func(Value(' '), F(FILTER_DICT['author-first']['op']),
-                                                          F(FILTER_DICT['author-last']['op']), function="CONCAT_WS"))
-    results = results.filter(query)
-    print(results)
+    response = []
+    if not empty:
+        # from https://stackoverflow.com/a/45137351/6548555
+        results = Book.objects
+        if "author-whole" in filters:
+            # add first+last field
+            results = results.annotate(author_whole_name=Func(Value(' '), F(FILTER_DICT['author-first']['op']),
+                                                              F(FILTER_DICT['author-last']['op']), function="CONCAT_WS"))
+        results = results.filter(query).order_by('title')
+        response = [{
+            "id": obj.id,
+            "title": obj.title,
+            "author_first": obj.author.all()[0].first_name if len(obj.author.all()) > 0 else None,
+            "author_last": obj.author.all()[0].last_name if len(obj.author.all()) > 0 else None,
+            "checkout": obj.checkout is not None,  # send boolean, not name
+            "location": obj.location,
+        } for obj in results.all()]
 
-    return ""
+    return JsonResponse({"items": response})

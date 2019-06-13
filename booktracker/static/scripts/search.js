@@ -22,11 +22,36 @@ function onFormSubmit(e) {
   let data = {};
   $form.serializeArray().forEach(obj => data[obj.name] = obj.value);
   $.post({
-      url: "/search",
-      headers: { "X-CSRFToken": data["csrfmiddlewaretoken"] },
-      data: data,
+    url: "/search",
+    headers: {"X-CSRFToken": data["csrfmiddlewaretoken"]},
+    data: data,
+    success: displayResults,
   });
   return false;
+}
+
+function displayResults(data) {
+  let $table = $("#resultsTable");
+  let $noResults = $("#noResultsLabel");
+  if (data.items.length > 0) {
+    $table.removeClass("d-none");
+    $noResults.addClass("d-none");
+    let $tbody = $("#resultsBody").html("");
+    for (let book of data.items) {
+      let nameParts = [];
+      if (book.author_last) nameParts.push(book.author_last);
+      if (book.author_first) nameParts.push(book.author_first);
+      let name = nameParts.join(", ");
+      let row = $("<tr></tr>").toggleClass("checked-out", book.checkout);
+      row.append(`<td>${name}</td>`,
+                 `<td>${book.title}</td>`,
+                 `<td class="d-none d-sm-table-cell">${book.location}</td>`);
+      $tbody.append(row);
+    }
+  } else {
+    $table.addClass("d-none");
+    $noResults.removeClass("d-none");
+  }
 }
 
 function toggleFilter(btn, init=false) {

@@ -16,6 +16,22 @@ label {
   padding: 7px 10px;
 }
 
+tbody tr {
+  transition: background-color 200ms ease;
+}
+
+tbody tr.checked-out {
+  background-color: #3333;
+}
+
+tbody tr:hover {
+  background-color: #007bff55;
+}
+
+tbody tr.checked-out:hover {
+  background-color: #3334;
+}
+
 @media (min-width: 768px) {
   label {
     border-bottom: 1px solid #ced4da;

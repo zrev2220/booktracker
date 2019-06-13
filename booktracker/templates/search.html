@@ -14,7 +14,7 @@
   <br>
   <br>
 
-  <form id="searchForm" action="/" method="post">{% csrf_token %}
+  <form id="searchForm" action="/" method="post" class="mb-2">{% csrf_token %}
     <h3>Search</h3>
     <div class="form-row mb-2 filter-toggles">
       <input type="hidden" id="activeFilters" name="activeFilters" value='["title"]'>
@@ -107,4 +107,17 @@
       </button>
     </div>
   </form>
+
+  <h4 id="noResultsLabel" class="font-italic font-weight-light d-none">No results</h4>
+  <table id="resultsTable" class="table d-none">
+    <thead>
+      <tr>
+        <th scope="col">Author</th>
+        <th scope="col">Title</th>
+        <th scope="col" class="d-none d-sm-table-cell">Location</th>
+      </tr>
+    </thead>
+    <tbody id="resultsBody">
+    </tbody>
+  </table>
 {% endblock %}
