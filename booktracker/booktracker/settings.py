@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv()  # Load environment vars from .env file (if present)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'mgwm0u8%vhn(e+1f^+k+=3l2e+4_i4k0=cjti(ca(sd)v*-3e('
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,15 +80,11 @@ WSGI_APPLICATION = 'booktracker.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'autogenerate': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
     'default': {
       'ENGINE': 'django.db.backends.postgresql',
       'NAME': 'booktracker',
       'USER': 'booktracker_user',
-      'PASSWORD': 'dickens poe shakespeare',
+      'PASSWORD': os.getenv('DATABASE_PASSWORD'),
       'HOST': '127.0.0.1',
       'PORT': '',
     },
