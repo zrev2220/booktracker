@@ -1,1 +1,1 @@
-web: gunicorn booktracker/wsgi.py
+web: gunicorn booktracker.wsgi
