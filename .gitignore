@@ -2,6 +2,8 @@ venv/
 .idea/
 __pycache__/
 migrations/
+static_prod/
+
 *.sqlite3
 *.env
 
