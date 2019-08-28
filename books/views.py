@@ -1,9 +1,10 @@
 from django.views.generic.base import TemplateView
 from django.db.models import Q, F, Func, Value
 from django.http import JsonResponse
-from .models import Book
+from .models import Author, Book, Category
 import json
 
+# TODO: Move to a JSON file which configures this stuff?
 FILTER_DICT = {
     "title": {
         "desc": "Title",
@@ -47,10 +48,21 @@ class HomePageView(TemplateView):
     template_name = "search.html"
 
     def get_context_data(self, **kwargs):
+        authors = sorted([{
+            "id": a.id,
+            "name": f"{a.last_name}{', ' if a.last_name and a.first_name else ''}{a.first_name}",
+        } for a in Author.objects.all()], key=lambda a: a["name"])
+        categories = [{
+            "id": c.id,
+            "name": c.descr,
+        } for c in Category.objects.all().order_by("descr")]
+
         context = super().get_context_data(**kwargs)
         context["current_page"] = "Home"
         context["filter_options"] = FILTER_DICT
         context["match_options"] = MATCH_DICT
+        context["authors"] = authors
+        context["categories"] = categories
         return context
 
 
