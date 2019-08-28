@@ -66,11 +66,26 @@ class HomePageView(TemplateView):
         return context
 
 
-# AJAX search endpoint
-# Performs search given certain filters and returns results in JSON
-# TODO: try to hack this with Postman and harden it
-# TODO: add paging
 def search(request):
+    """
+        AJAX book search endpoint.
+
+        Performs search given certain filters and returns results in JSON in the following structure::
+
+            {
+                "id": int,
+                "title": string,
+                "author_first": string,
+                "author_last": string,
+                "checkout": boolean,
+                "location": string,
+            }[]
+
+        :param request: Request object from AJAX request.
+        :return: JSON list of search results.
+        """
+    # TODO: try to hack this with Postman and harden it
+    # TODO: add paging
     # get selected filters
     filters = set(json.loads(request.POST['activeFilters']))
     combine = (lambda p, q: p & q) if request.POST['andOr'] == "and" else (lambda p, q: p | q)
