@@ -20,13 +20,14 @@
     <div class="form-row mb-2 filter-toggles">
       <input type="hidden" id="activeFilters" name="activeFilters" value='["title"]'>
       {% for key, values in filter_options.items %}
-        <button class="btn btn-outline-primary mb-2 filter-btn" type="button" data-filter="{{ key }}" data-toggle="collapse"
+        <button class="btn btn-outline-primary mb-2 filter-btn" type="button" data-filter="{{ key }}"
+                data-toggle="collapse"
                 data-target="#{{ key }}Div" aria-expanded="true" aria-controls="{{ key }}Div">
           {{ values.desc }}
         </button>
       {% endfor %}
     </div>
-{#  TODO: Generalize these components to allow {% for %}-ing#}
+    {# TODO: Generalize these components to allow {% for %}-ing#}
     <div class="form-row collapse" id="titleDiv">
       <div class="col-md-3 col-lg-2 mb-2">
         <label for="title" class="text-md-center mb-0">Title</label>
@@ -112,11 +113,11 @@
   <h4 id="noResultsLabel" class="font-italic font-weight-light d-none">No results</h4>
   <table id="resultsTable" class="table d-none">
     <thead>
-      <tr>
-        <th scope="col">Author</th>
-        <th scope="col">Title</th>
-        <th scope="col" class="d-none d-sm-table-cell">Location</th>
-      </tr>
+    <tr>
+      <th scope="col">Author</th>
+      <th scope="col">Title</th>
+      <th scope="col" class="d-none d-sm-table-cell">Location</th>
+    </tr>
     </thead>
     <tbody id="resultsBody">
     </tbody>
