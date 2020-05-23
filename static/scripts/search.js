@@ -18,7 +18,15 @@ $(() => {
   // register event handlers
   $("#searchForm").on("submit", e => onFormSubmit(e));
   const $filterBtns = $(".filter-btn").on("click", e => toggleFilter(e.target));
-  $(".collapse").on("shown.bs.collapse hidden.bs.collapse", e => collapsingFilters.delete(e.target));
+  $(".collapse:not(#andOrDiv)").on("shown.bs.collapse hidden.bs.collapse", e => collapsingFilters.delete(e.target));
+  $("#andOrDiv").on("shown.bs.collapse hidden.bs.collapse", e => {
+    // after showing/hiding, perhaps undo the action if the number of filters has changed
+    // and the button shouldn't display
+    const isShowing = $("#andOrDiv").hasClass("show");
+    if (filters.size > 1 ^ isShowing) {
+      $("#andOrDiv").collapse(filters.size > 1 ? "show" : "hide");
+    }
+  });
 
   // make sure active filters' buttons are initialized
   filters = new Set(JSON.parse($("#activeFilters").val()));
