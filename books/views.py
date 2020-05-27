@@ -1,8 +1,12 @@
-from django.views.generic.base import TemplateView
+import json
+
 from django.db.models import Q, F, Func, Value
 from django.http import JsonResponse
+from django.views.generic import CreateView
+from django.views.generic.base import TemplateView
+
+from books.forms import BookForm
 from .models import Author, Book, Category
-import json
 
 # TODO: Move to a JSON file which configures this stuff?
 FILTER_DICT = {
@@ -43,8 +47,12 @@ MATCH_DICT = {
 }
 
 
-# Main landing page; displays search form
 class HomePageView(TemplateView):
+    """
+    Main landing page.
+
+    Displays search form.
+    """
     template_name = "search.html"
 
     def get_context_data(self, **kwargs):
@@ -66,7 +74,7 @@ class HomePageView(TemplateView):
         return context
 
 
-def search(request):
+def book_search(request):
     """
         AJAX book search endpoint.
 
@@ -86,6 +94,7 @@ def search(request):
         """
     # TODO: try to hack this with Postman and harden it
     # TODO: add paging
+    # TODO: after paging, allow retrieving all records
     # get selected filters
     filters = set(json.loads(request.POST['activeFilters']))
     combine = (lambda p, q: p & q) if request.POST['andOr'] == "and" else (lambda p, q: p | q)
@@ -109,7 +118,8 @@ def search(request):
         if "author-whole" in filters:
             # add first+last field
             results = results.annotate(author_whole_name=Func(Value(' '), F(FILTER_DICT['author-first']['op']),
-                                                              F(FILTER_DICT['author-last']['op']), function="CONCAT_WS"))
+                                                              F(FILTER_DICT['author-last']['op']),
+                                                              function="CONCAT_WS"))
         results = results.filter(query).order_by('title')
         response = [{
             "id": obj.id,
@@ -121,3 +131,12 @@ def search(request):
         } for obj in results.all()]
 
     return JsonResponse({"items": response})
+
+
+class AddBookView(CreateView):
+    """
+    Page containing a form to create a book object.
+    """
+    model = Book
+    form_class = BookForm
+    success_url = '/'
