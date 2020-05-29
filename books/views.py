@@ -2,6 +2,7 @@ import json
 
 from django.db.models import Q, F, Func, Value
 from django.http import JsonResponse
+from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic.base import TemplateView
 
@@ -140,3 +141,9 @@ class AddBookView(CreateView):
     model = Book
     form_class = BookForm
     success_url = '/'
+
+    def get_success_url(self):
+        if self.request.POST.get('save+add'):
+            return reverse('add-book')
+        else:
+            return reverse('books-search')
