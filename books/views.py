@@ -1,5 +1,6 @@
 import json
 
+from django.contrib import messages
 from django.db.models import Q, F, Func, Value
 from django.http import JsonResponse
 from django.urls import reverse
@@ -140,10 +141,13 @@ class AddBookView(CreateView):
     """
     model = Book
     form_class = BookForm
-    success_url = '/'
 
     def get_success_url(self):
         if self.request.POST.get('save+add'):
             return reverse('add-book')
         else:
             return reverse('books-search')
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Added "{self.request.POST.get("title")}"')
+        return super().form_valid(form)

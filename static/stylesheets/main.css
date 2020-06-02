@@ -1,3 +1,11 @@
+#message-alerts {
+  position: fixed;
+  top: 10px;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+}
+
 .btn-nohoverfill:hover {
   color: inherit;
   background-color: inherit;
