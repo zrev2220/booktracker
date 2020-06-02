@@ -59,8 +59,9 @@ Copyright 2020
 
 {% if messages %}
   <div id="message-alerts" class="container">
-    {% for message in messages %}
-      <div class="alert alert-dismissible fade show
+    <div class="position-relative">
+      {% for message in messages %}
+        <div class="alert alert-dismissible fade show
         {% if "info" in message.tags %}
           alert-primary
         {% elif "success" in message.tags %}
@@ -72,12 +73,13 @@ Copyright 2020
         {% elif "debug" in message.tags %}
           alert-light
         {% endif %}" role="alert">
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {% endfor %}
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 {% endif %}
 

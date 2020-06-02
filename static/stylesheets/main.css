@@ -6,6 +6,12 @@
   z-index: 1100;
 }
 
+#message-alerts .alert {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
 .btn-nohoverfill:hover {
   color: inherit;
   background-color: inherit;
