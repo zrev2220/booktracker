@@ -60,12 +60,12 @@
         {% endif %}
         {{ form.category }}
         <div class="list-mod-buttons mt-1">
-          <button id="add-entry-{{ form.category.id_for_label }}" class="add-entry-btn btn btn-sm btn-success" type="button"
-                  data-target="#{{ form.category.id_for_label }}">
+          <button id="add-entry-{{ form.category.id_for_label }}" class="add-entry-btn btn btn-sm btn-success"
+                  type="button" data-target="#{{ form.category.id_for_label }}">
             <i class="fas fa-plus"></i>
           </button>
-          <button id="remove-entry-{{ form.category.id_for_label }}" class="remove-entry-btn btn btn-sm btn-danger" type="button"
-                  data-target="#{{ form.category.id_for_label }}">
+          <button id="remove-entry-{{ form.category.id_for_label }}" class="remove-entry-btn btn btn-sm btn-danger"
+                  type="button" data-target="#{{ form.category.id_for_label }}">
             <i class="fas fa-minus"></i>
           </button>
         </div>
@@ -102,8 +102,11 @@
         {% endif %}
         {{ form.return_date }}
       </div>
-      <input type="submit" class="w-sm-100 btn btn-success mt-3" value="Save" name="save">
-      <input type="submit" class="w-sm-100 btn btn-outline-success mt-3" value="Save & Add Another" name="save+add">
+      <div id="submit-btns" class="py-2">
+        <input type="submit" id="save-btn" class="w-sm-100 btn btn-success my-1" value="Save" name="save">
+        <input type="submit" id="save-add-btn" class="w-sm-100 btn btn-outline-success my-1" value="Save & Add Another"
+               name="save+add">
+      </div>
     </form>
   </div>
 {% endblock %}

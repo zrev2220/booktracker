@@ -2,3 +2,13 @@
   font-size: small;
   font-style: italic;
 }
+
+#submit-btns {
+  position: sticky;
+  bottom: 0;
+  background: #fffa;
+}
+
+#save-add-btn:not(:hover) {
+  background: white;
+}
