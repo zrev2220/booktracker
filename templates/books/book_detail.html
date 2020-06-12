@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'stylesheets/book_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div id="title" class="d-flex flex-column flex-sm-row align-items-baseline mb-3">
+    <h1 class="d-inline-block mr-1">{{ object.title }}</h1>
+  </div>
+  <div id="details-table">
+    <div class="row mb-2">
+      <div class="col">
+        <strong>Author</strong>
+      </div>
+      <div class="col">
+        {% if object.author.count > 0 %}
+          <ul class="simple-list pl-0">
+            {% for author in object.author.all %}
+              <li>{{ author }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <em class="font-weight-light">No author</em>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col">
+        <strong>Category</strong>
+      </div>
+      <div class="col">
+        {% if object.category.count > 0 %}
+          <ul class="simple-list pl-0">
+            {% for category in object.category.all %}
+              <li>{{ category }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <em class="font-weight-light">No category</em>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col">
+        <strong>Location</strong>
+      </div>
+      <div class="col">
+        {% if object.location %}
+          object.location
+        {% else %}
+          <em class="font-weight-light">None</em>
+        {% endif %}
+      </div>
+    </div>
+    {% if object.notes %}
+      <div class="row mb-2">
+        <div class="col">
+          <strong>Notes</strong>
+        </div>
+        <div class="col">
+          {% for line in object.notes.splitlines %}
+            <p>{{ line|default:"&nbsp;" }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    {% if object.checkout %}
+      {#    {% if True or object.checkout %}#}
+      <div class="row mb-2">
+        <div class="col text-warning">
+          <strong>Checked out by</strong>
+        </div>
+        <div class="col">
+          {{ object.checkout }}
+        </div>
+      </div>
+    {% endif %}
+    {% if object.return_date %}
+      <div class="row mb-2">
+        <div class="col">
+          <strong>Return Date</strong>
+        </div>
+        <div class="col">
+          {{ object.return_date }}
+          {% if overdue %}
+            <span class="text-danger font-weight-bold">(Overdue!)</span>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+

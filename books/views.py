@@ -4,7 +4,8 @@ from django.contrib import messages
 from django.db.models import Q, F, Func, Value
 from django.http import JsonResponse
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.utils import timezone
+from django.views.generic import CreateView, DetailView
 from django.views.generic.base import TemplateView
 
 from books.forms import BookForm
@@ -151,3 +152,12 @@ class AddBookView(CreateView):
     def form_valid(self, form):
         messages.success(self.request, f'Added "{self.request.POST.get("title")}"')
         return super().form_valid(form)
+
+
+class BookDetailView(DetailView):
+    model = Book
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['overdue'] = timezone.now().date() > self.object.return_date if self.object.return_date else False
+        return context

@@ -60,7 +60,10 @@ function displayResults(data) {
       if (book.author_last) nameParts.push(book.author_last);
       if (book.author_first) nameParts.push(book.author_first);
       const name = nameParts.join(", ");
-      const row = $("<tr></tr>").toggleClass("checked-out", book.checkout);
+      const row = $("<tr></tr>")
+        .attr("onclick", `window.location.href="details/${book.id}"`)
+        .attr("role", "button")
+        .toggleClass("checked-out", book.checkout);
       row.append(
         `<td>${name}</td>`,
         `<td>${book.title}</td>`,
