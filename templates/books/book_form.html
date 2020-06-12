@@ -18,9 +18,9 @@
   <div id="title" class="d-flex flex-column flex-sm-row align-items-baseline mb-3">
     <h1 class="d-inline-block mr-1">Add Book</h1>
     <span id="required-note">
-        <span id="required-note-starred" class="text-danger">* Starred</span>
-        fields are required
-      </span>
+      <span id="required-note-starred" class="text-danger">* Starred</span>
+      fields are required
+    </span>
   </div>
   {{ form.errors }}
   <form method="post">{% csrf_token %}
