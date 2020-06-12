@@ -155,6 +155,9 @@ class AddBookView(CreateView):
 
 
 class BookDetailView(DetailView):
+    """
+    Page details about a book object.
+    """
     model = Book
 
     def get_context_data(self, **kwargs):
