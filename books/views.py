@@ -3,6 +3,7 @@ import json
 from django.contrib import messages
 from django.db.models import Q, F, Func, Value
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView
@@ -129,11 +130,15 @@ def book_search(request):
             "title": obj.title,
             "author_first": obj.author.all()[0].first_name if len(obj.author.all()) > 0 else None,
             "author_last": obj.author.all()[0].last_name if len(obj.author.all()) > 0 else None,
+            "author_full": obj.author.all()[0].get_full_name(True) if len(obj.author.all()) > 0 else None,
             "checkout": obj.checkout is not None,  # send boolean, not name
             "location": obj.location,
         } for obj in results.all()]
 
-    return JsonResponse({"items": response})
+    return JsonResponse({
+        "html": render_to_string("search_results.html", {"items": response}),
+        "items": response,
+    })
 
 
 class AddBookView(CreateView):

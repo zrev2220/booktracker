@@ -1,0 +1,23 @@
+{% if items|length %}
+  <table id="resultsTable" class="table">
+    <thead>
+    <tr>
+      <th scope="col">Author</th>
+      <th scope="col">Title</th>
+      <th scope="col">Location</th>
+    </tr>
+    </thead>
+    <tbody id="resultsBody">
+    {% for book in items %}
+      <tr onclick="window.location.href={% url 'book-detail' book.id %}" role="button"
+          {% if book.checkout %}class="checked-out"{% endif %}>
+        <td>{{ book.author_full }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.location }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <h4 id="noResultsLabel" class="font-italic font-weight-light">No results</h4>
+{% endif %}
