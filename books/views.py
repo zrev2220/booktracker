@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.views.generic.base import TemplateView
 
 from books.forms import BookForm
@@ -174,6 +174,19 @@ class EditBookView(UpdateView):
     def get_success_url(self):
         messages.success(self.request, f'Updated "{self.request.POST.get("title")}"')
         return reverse('book-detail', args=(self.object.id,))
+
+
+class DeleteBookView(DeleteView):
+    """
+    View for deleting a book.
+
+    Does not have a dedicated confirmation page. As such, should never be called via GET, only POST.
+    """
+    model = Book
+
+    def get_success_url(self):
+        messages.success(self.request, f'Deleted "{self.request.POST.get("title")}"')
+        return reverse('books-search')
 
 
 class BookDetailView(DetailView):
