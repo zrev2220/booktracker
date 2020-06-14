@@ -1,5 +1,8 @@
 "use strict";
 
+/*----------------------------------------
+  Global variables
+----------------------------------------*/
 /**
  * Set of currently-displayed filters.
  * @type {Set<string>}
@@ -14,11 +17,21 @@ let filters;
  */
 const collapsingFilters = new Set();
 
+// JQuery `ready` handler
 $(() => {
   // register event handlers
   $("#searchForm").on("submit", e => onFormSubmit(e));
   const $filterBtns = $(".filter-btn").on("click", e => toggleFilter(e.target));
-  $(".collapse").on("shown.bs.collapse hidden.bs.collapse", e => collapsingFilters.delete(e.target));
+  $(".collapse:not(#andOrDiv)").on("shown.bs.collapse hidden.bs.collapse", e => collapsingFilters.delete(e.target));
+  $("#andOrDiv").on("shown.bs.collapse hidden.bs.collapse", e => {
+    // after showing/hiding, perhaps undo the action if the number of filters has changed
+    // and the button shouldn't display
+    const $andOrDiv = $("#andOrDiv");
+    const isShowing = $andOrDiv.hasClass("show");
+    if (filters.size > 1 ^ isShowing) {
+      $andOrDiv.collapse(filters.size > 1 ? "show" : "hide");
+    }
+  });
 
   // make sure active filters' buttons are initialized
   filters = new Set(JSON.parse($("#activeFilters").val()));
@@ -32,6 +45,12 @@ $(() => {
     $("#andOrBtn").text("Results match ANY filter");
 });
 
+/**
+ * Search form submit handler.
+ *
+ * Performs a search request via AJAX to the search backend.
+ * @param e {Event} Form submit event
+ */
 function onFormSubmit(e) {
   e.preventDefault();
   console.log(e);
@@ -45,17 +64,23 @@ function onFormSubmit(e) {
     data: data,
     success: data => $("#resultsBody").html(data.html),
   });
-  return false;
 }
 
+/**
+ * Toggles a filter on or off, updating `filters` accordingly.
+ *
+ * This function does nothing if the target of the given button has not finished a collapse animation, unless `init`
+ * is `true`.
+ * @param btn {HTMLButtonElement} Button (presumably the one clicked) controlling the filter div's display.
+ * @param [init] {boolean} Flag indicating if the toggle is part of page initialization. If `true`, do not update
+ * `filters`.
+ */
 function toggleFilter(btn, init = false) {
   const thisFilter = btn.dataset.filter;
   const $filterElement = $(btn.dataset.target);
   if (!collapsingFilters.has($filterElement[0]) || init) {
-    if (!init) {
-      // if not init'ing, add the target div to collapsingFilters to ignore additional clicks until animation completes
-      collapsingFilters.add($filterElement[0]);
-    }
+    // if not init'ing, add the target div to collapsingFilters to ignore additional clicks until animation completes
+    collapsingFilters.add($filterElement[0]);
     const $filterInput = $("#activeFilters");
     btn.classList.toggle("btn-outline-primary");
     btn.classList.toggle("btn-primary");
@@ -71,6 +96,9 @@ function toggleFilter(btn, init = false) {
   }
 }
 
+/**
+ * Toggles the text and hidden input value for the and/or filter button.
+ */
 function toggleAndOr() {
   const $btn = $("#andOrBtn");
   const $hidden = $("#andOrHidden");
