@@ -11,7 +11,13 @@
     {% for book in items %}
       <tr onclick="window.location.href='{% url 'book-detail' book.id %}'" role="button"
           {% if book.checkout %}class="checked-out"{% endif %}>
-        <td>{{ book.author_full }}</td>
+        <td>
+          {% if book.author_full %}
+            {{ book.author_full }}
+          {% else %}
+            <span class="font-italic font-weight-light">None</span>
+          {% endif %}
+        </td>
         <td>{{ book.title }}</td>
         <td>{{ book.location }}</td>
       </tr>
