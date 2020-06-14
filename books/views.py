@@ -149,10 +149,10 @@ class AddBookView(CreateView):
     form_class = BookForm
 
     def get_success_url(self):
-        if self.request.POST.get('save+add'):
-            return reverse('add-book')
+        if self.request.POST.get("save+add"):
+            return reverse("add-book")
         else:
-            return reverse('books-search')
+            return reverse("books-search")
 
     def form_valid(self, form):
         messages.success(self.request, f'Added "{self.request.POST.get("title")}"')
@@ -184,5 +184,5 @@ class BookDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['overdue'] = timezone.now().date() > self.object.return_date if self.object.return_date else False
+        context["overdue"] = timezone.now().date() > self.object.return_date if self.object.return_date else False
         return context
