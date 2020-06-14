@@ -6,8 +6,12 @@
 {% endblock %}
 
 {% block content %}
-  <div id="title" class="d-flex flex-column flex-sm-row align-items-baseline mb-3">
+  <div id="title" class="d-flex flex-column flex-sm-row align-items-baseline">
     <h1 class="d-inline-block mr-1">{{ object.title }}</h1>
+  </div>
+  <div class="mb-3 d-flex justify-content-start">
+    <button class="btn btn-primary mr-1 w-sm-100" onclick="window.location.href='{% url 'edit-book' object.id %}'">Edit</button>
+    <button class="btn btn-danger w-sm-100" onclick="alert('You want to delete this book. But you can\'t yet, sry. :(')">Delete</button>
   </div>
   <div id="details-table">
     <div class="row mb-2">

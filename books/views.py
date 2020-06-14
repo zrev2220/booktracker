@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView
 from django.views.generic.base import TemplateView
 
 from books.forms import BookForm
@@ -157,6 +157,23 @@ class AddBookView(CreateView):
     def form_valid(self, form):
         messages.success(self.request, f'Added "{self.request.POST.get("title")}"')
         return super().form_valid(form)
+
+
+class EditBookView(UpdateView):
+    """
+    Page for editing/updating a book object's information.
+    """
+    model = Book
+    form_class = BookForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["edit"] = True
+        return context
+
+    def get_success_url(self):
+        messages.success(self.request, f'Updated "{self.request.POST.get("title")}"')
+        return reverse('book-detail', args=(self.object.id,))
 
 
 class BookDetailView(DetailView):

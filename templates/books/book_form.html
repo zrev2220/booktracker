@@ -16,7 +16,13 @@
 
 {% block content %}
   <div id="title" class="d-flex flex-column flex-sm-row align-items-baseline mb-3">
-    <h1 class="d-inline-block mr-1">Add Book</h1>
+    <h1 class="d-inline-block mr-1">
+      {% if edit %}
+        Edit Book
+      {% else %}
+        Add Book
+      {% endif %}
+    </h1>
     <span id="required-note">
       <span id="required-note-starred" class="text-danger">* Starred</span>
       fields are required
@@ -103,8 +109,13 @@
     </div>
     <div id="submit-btns" class="py-2">
       <input type="submit" id="save-btn" class="w-sm-100 btn btn-success my-1" value="Save" name="save">
-      <input type="submit" id="save-add-btn" class="w-sm-100 btn btn-outline-success my-1" value="Save & Add Another"
-             name="save+add">
+      {% if not edit %}
+        <input type="submit" id="save-add-btn" class="w-sm-100 btn btn-outline-success .outline-btn-solid-bg my-1"
+               value="Save & Add Another" name="save+add">
+      {% else %}
+        <button id="cancel-btn" class="w-sm-100 btn btn-outline-primary .outline-btn-solid-bg my-1"
+          onclick="window.location.href='{% url 'book-detail' object.id %}'; return false;">Cancel</button>
+      {% endif %}
     </div>
   </form>
 {% endblock %}

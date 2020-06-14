@@ -9,6 +9,6 @@
   background: #fffa;
 }
 
-#save-add-btn:not(:hover) {
+.outline-btn-solid-bg:not(:hover) {
   background: white;
 }
