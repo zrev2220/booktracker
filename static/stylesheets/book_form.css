@@ -1,0 +1,14 @@
+#required-note {
+  font-size: small;
+  font-style: italic;
+}
+
+#submit-btns {
+  position: sticky;
+  bottom: 0;
+  background: #fffa;
+}
+
+.outline-btn-solid-bg:not(:hover) {
+  background: white;
+}

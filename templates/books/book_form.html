@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static "stylesheets/book_form.css" %}">
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    // load important control element IDs (used in book_form.js)
+    window.authorId = "{{ form.author.id_for_label }}";
+    window.categoryId = "{{ form.category.id_for_label }}";
+  </script>
+  <script src="{% static "scripts/book_form.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+  <div id="title" class="d-flex flex-column flex-sm-row align-items-baseline mb-3">
+    <h1 class="d-inline-block mr-1">
+      {% if edit %}
+        Edit Book
+      {% else %}
+        Add Book
+      {% endif %}
+    </h1>
+    <span id="required-note">
+      <span id="required-note-starred" class="text-danger">* Starred</span>
+      fields are required
+    </span>
+  </div>
+  {{ form.errors }}
+  <form method="post">{% csrf_token %}
+    {# Title field #}
+    <div class="form-field-row mb-1">
+      {{ form.title.label_tag }}
+      {% if form.title.field.required %}
+        <span class="text-danger">*</span>
+      {% endif %}
+      {{ form.title }}
+    </div>
+    {# Author field #}
+    <div class="form-field-row mb-1">
+      {{ form.author.label_tag }}
+      {% if form.author.field.required %}
+        <span class="text-danger">*</span>
+      {% endif %}
+      {{ form.author }}
+      <div class="list-mod-buttons mt-1">
+        <button id="add-entry-{{ form.author.id_for_label }}" class="add-entry-btn btn btn-sm btn-success"
+                type="button" data-target="#{{ form.author.id_for_label }}">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button id="remove-entry-{{ form.author.id_for_label }}" class="remove-entry-btn btn btn-sm btn-danger"
+                type="button" data-target="#{{ form.author.id_for_label }}">
+          <i class="fas fa-minus"></i>
+        </button>
+      </div>
+    </div>
+    {# Category field #}
+    {# TODO Convert to field of checkboxes #}
+    <div class="form-field-row mb-1">
+      {{ form.category.label_tag }}
+      {% if form.category.field.required %}
+        <span class="text-danger">*</span>
+      {% endif %}
+      {{ form.category }}
+      <div class="list-mod-buttons mt-1">
+        <button id="add-entry-{{ form.category.id_for_label }}" class="add-entry-btn btn btn-sm btn-success"
+                type="button" data-target="#{{ form.category.id_for_label }}">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button id="remove-entry-{{ form.category.id_for_label }}" class="remove-entry-btn btn btn-sm btn-danger"
+                type="button" data-target="#{{ form.category.id_for_label }}">
+          <i class="fas fa-minus"></i>
+        </button>
+      </div>
+    </div>
+    {# Location field #}
+    <div class="form-field-row mb-1">
+      {{ form.location.label_tag }}
+      {% if form.location.field.required %}
+        <span class="text-danger">*</span>
+      {% endif %}
+      {{ form.location }}
+    </div>
+    {# Notes field #}
+    <div class="form-field-row mb-1">
+      {{ form.notes.label_tag }}
+      {% if form.notes.field.required %}
+        <span class="text-danger">*</span>
+      {% endif %}
+      {{ form.notes }}
+    </div>
+    {# Checkout field #}
+    <div class="form-field-row mb-1">
+      {{ form.checkout.label_tag }}
+      {% if form.checkout.field.required %}
+        <span class="text-danger">*</span>
+      {% endif %}
+      {{ form.checkout }}
+    </div>
+    {# Return date field #}
+    <div class="form-field-row mb-1">
+      {{ form.return_date.label_tag }}
+      {% if form.return_date.field.required %}
+        <span class="text-danger">*</span>
+      {% endif %}
+      {{ form.return_date }}
+    </div>
+    <div id="submit-btns" class="py-2">
+      <input type="submit" id="save-btn" class="w-sm-100 btn btn-success my-1" value="Save" name="save">
+      {% if not edit %}
+        <input type="submit" id="save-add-btn" class="w-sm-100 btn btn-outline-success .outline-btn-solid-bg my-1"
+               value="Save & Add Another" name="save+add">
+      {% else %}
+        <button id="cancel-btn" class="w-sm-100 btn btn-outline-primary .outline-btn-solid-bg my-1"
+          onclick="window.location.href='{% url 'book-detail' object.id %}'; return false;">Cancel</button>
+      {% endif %}
+    </div>
+  </form>
+{% endblock %}

@@ -1,9 +1,26 @@
-.maxw-max-content {
-  max-width: max-content;
+#message-alerts {
+  position: fixed;
+  top: 10px;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+}
+
+#message-alerts .alert {
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .btn-nohoverfill:hover {
   color: inherit;
   background-color: inherit;
   border-color: inherit;
+}
+
+@media screen and (max-width: 576px) {
+  /* General-purpose width: 100% class for <=sm screens. */
+  .w-sm-100 {
+    width: 100% !important;
+  }
 }
