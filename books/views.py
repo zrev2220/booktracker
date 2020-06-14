@@ -172,7 +172,7 @@ class EditBookView(UpdateView):
         return context
 
     def get_success_url(self):
-        messages.success(self.request, f'Updated "{self.request.POST.get("title")}"')
+        messages.info(self.request, f'Updated "{self.request.POST.get("title")}"')
         return reverse('book-detail', args=(self.object.id,))
 
 
@@ -185,7 +185,7 @@ class DeleteBookView(DeleteView):
     model = Book
 
     def get_success_url(self):
-        messages.success(self.request, f'Deleted "{self.request.POST.get("title")}"')
+        messages.error(self.request, f'Deleted "{self.request.POST.get("title")}"')
         return reverse('books-search')
 
 
