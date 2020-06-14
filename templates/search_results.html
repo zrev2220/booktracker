@@ -9,7 +9,7 @@
     </thead>
     <tbody id="resultsBody">
     {% for book in items %}
-      <tr onclick="window.location.href={% url 'book-detail' book.id %}" role="button"
+      <tr onclick="window.location.href='{% url 'book-detail' book.id %}'" role="button"
           {% if book.checkout %}class="checked-out"{% endif %}>
         <td>{{ book.author_full }}</td>
         <td>{{ book.title }}</td>
