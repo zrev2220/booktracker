@@ -16,14 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from booktracker.views import LoginView
+from booktracker.views import MyLoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('books.urls')),
-    path('login/', LoginView.as_view(), name='login')
+    path('login/', MyLoginView.as_view(), name='login')
     # path('checkout/<id>', ),
-    # path('people', ),
+    # path('people/', ),
     # path('people/add', ),
 ]
 
