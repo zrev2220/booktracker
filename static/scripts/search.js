@@ -59,7 +59,7 @@ function onFormSubmit(e) {
   const data = {};
   $form.serializeArray().forEach(obj => data[obj.name] = obj.value);
   $.post({
-    url: "/search",
+    url: window.searchUrl,
     headers: {"X-CSRFToken": data["csrfmiddlewaretoken"]},
     data: data,
     success: data => $("#resultsBody").html(data.html),

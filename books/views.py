@@ -1,6 +1,7 @@
 import json
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, F, Func, Value
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -51,7 +52,7 @@ MATCH_DICT = {
 }
 
 
-class HomePageView(TemplateView):
+class HomePageView(LoginRequiredMixin, TemplateView):
     """
     Main landing page.
 
@@ -141,7 +142,7 @@ def book_search(request):
     })
 
 
-class AddBookView(CreateView):
+class AddBookView(LoginRequiredMixin, CreateView):
     """
     Page containing a form to create a book object.
     """
@@ -159,7 +160,7 @@ class AddBookView(CreateView):
         return super().form_valid(form)
 
 
-class EditBookView(UpdateView):
+class EditBookView(LoginRequiredMixin, UpdateView):
     """
     Page for editing/updating a book object's information.
     """
@@ -176,7 +177,7 @@ class EditBookView(UpdateView):
         return reverse('book-detail', args=(self.object.id,))
 
 
-class DeleteBookView(DeleteView):
+class DeleteBookView(LoginRequiredMixin, DeleteView):
     """
     View for deleting a book.
 
@@ -189,7 +190,7 @@ class DeleteBookView(DeleteView):
         return reverse('books-search')
 
 
-class BookDetailView(DetailView):
+class BookDetailView(LoginRequiredMixin, DetailView):
     """
     Page details about a book object.
     """

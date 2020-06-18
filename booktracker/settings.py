@@ -30,6 +30,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 # ALLOWED_HOSTS = ['127.0.0.1']
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'books-search'
+LOGOUT_REDIRECT_URL = 'login'
 
 # Application definition
 
