@@ -18,7 +18,7 @@
     Add Book
   </button>
 
-  <form id="searchForm" action="/" method="post" class="mb-2">{% csrf_token %}
+  <form id="searchForm" method="post" class="mb-2">{% csrf_token %}
     <h3>Search</h3>
     <div class="form-row mb-2 filter-toggles">
       <input type="hidden" id="activeFilters" name="activeFilters" value='["title"]'>
