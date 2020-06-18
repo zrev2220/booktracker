@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block scripts %}
+  <script>
+    window.searchUrl = "{% url "books-search-ajax" %}";
+  </script>
   <script src="{% static "scripts/search.js" %}"></script>
 {% endblock %}
 
