@@ -16,13 +16,14 @@
     <p class="lead">Please log in</p>
   </div>
   {% if form.errors %}
-      <p class="text-danger text-center">
-        Seems your username or password was incorrect. Please enter valid credentials.
-      </p>
+    <p class="text-danger text-center">
+      Seems your username or password was incorrect. Please enter valid credentials.
+    </p>
   {% endif %}
   <form method="post" action="{% url "login" %}" id="login-form" class="px-sm-5 m-auto">{% csrf_token %}
-    <input class="form-control mb-3" name="username" placeholder="Username">
-    <input class="form-control mb-3" name="password" type="password" placeholder="Password">
+    <input class="form-control mb-3" name="username" placeholder="Username" value="{{ username|default:'' }}">
+    <input class="form-control mb-3" name="password" type="password" placeholder="Password"
+           value="{{ password|default:'' }}">
     <input class="form-control btn btn-primary" name="login" type="submit" value="Login">
     <input type="hidden" name="next" value="{{ next }}">
   </form>
