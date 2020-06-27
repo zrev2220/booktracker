@@ -1,3 +1,4 @@
+from django.db import IntegrityError, transaction
 from django.test import TestCase
 
 from books.models import Author
@@ -14,3 +15,10 @@ class TestAuthor(TestCase):
         a3 = Author(last_name="Bar")
         self.assertEqual("Bar", a3.get_full_name())
         self.assertEqual("Bar", a3.get_full_name())
+
+    def test_unique_names(self):
+        a1 = Author.objects.create(first_name="Foo", last_name="Bar")
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            a2 = Author.objects.create(first_name="Foo", last_name="Bar")
+        a3 = Author.objects.create(first_name="Foo", last_name="Baz")
+        a4 = Author.objects.create(first_name="Phooey", last_name="Bar")

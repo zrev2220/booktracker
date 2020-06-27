@@ -15,6 +15,9 @@ class Author(models.Model):
     def __str__(self):
         return self.get_full_name()
 
+    class Meta:
+        unique_together = ('first_name', 'last_name')
+
 
 class Category(models.Model):
     code = models.CharField(max_length=5, unique=True)
