@@ -46,9 +46,12 @@ Copyright 2020
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="navbar-nav mr-auto">
-        <a class="nav-item nav-link {% if current_page == "Home" %}active{% endif %}" href="{% url "books-search" %}">Home</a>
-        <a class="nav-item nav-link {% if current_page == "People" %}active{% endif %}" href="/people">People</a>
-        <a class="nav-item nav-link {% if current_page == "Checkouts" %}active{% endif %}" href="/TODO">Checkouts</a>
+        <a class="nav-item nav-link {% if current_page == "Home" %}text-primary font-weight-bold{% endif %}"
+           href="{% url "books-search" %}">Home</a>
+        <a class="nav-item nav-link {% if current_page == "People" %}text-primary font-weight-bold{% endif %}"
+           href="/people">People</a>
+        <a class="nav-item nav-link {% if current_page == "Checkouts" %}text-primary font-weight-bold{% endif %}"
+           href="/TODO">Checkouts</a>
         <form id="logoutForm" class="form-inline" method="post" action="{% url "logout" %}">{% csrf_token %}
           <a class="nav-item nav-link" href="javascript:void(0);" onclick="$('#logoutForm').submit();">Logout</a>
         </form>
