@@ -1,44 +1,20 @@
 "use strict";
 
 // declare jQuery vars
-let $addAuthorBtn, $removeAuthorBtn, $addAuthorModal, $addCategoryBtn, $removeCategoryBtn;
+let $addAuthorBtn, $addAuthorModal, $addCategoryBtn;
 
 $(() => {
   // initialize jQuery vars
   // note: window.authorId and window.categoryId are set in inline script in book_form.html
   $addAuthorBtn = $(`#add-entry-${window.authorId}`);
-  $removeAuthorBtn = $(`#remove-entry-${window.authorId}`);
   $addAuthorModal = $("#add-author-modal");
   $addCategoryBtn = $(`#add-entry-${window.categoryId}`);
-  $removeCategoryBtn = $(`#remove-entry-${window.categoryId}`);
 
   // register event handlers
-  // register change handler for target of each remove button
-  $.each([$removeAuthorBtn, $removeCategoryBtn], (i, btn) => {
-    btn = $(btn);
-    const targetInput = $(btn.data("target"));
-    targetInput.on("change", e => onModifiableInputChanged(btn, $(e.target).val()));
-    // fire the change handler once to initialize button state
-    onModifiableInputChanged(btn, targetInput.val());
-  });
-
-  // Register author form submit handler
   $addAuthorModal.find("form").on("submit", e => onAuthorFormSubmit(e));
-  // Register author form dismiss handler; clear inputs after dismissal
+  // author form dismiss handler; clear inputs after dismissal
   $addAuthorModal.on("hide.bs.modal", e => $(e.target).find(".modal-body input").val(""));
 });
-
-/**
- * Change handler for modifiable inputs--i.e. those accompanied by add/remove buttons.
- *
- * Enables/disables the input's `disabled` property according to its value, empty or nonempty.
- * @param btn {HTMLButtonElement}
- * @param value {string[]}
- */
-function onModifiableInputChanged(btn, value) {
-  // enable/disable remove button if something/nothing is selected
-  btn.prop("disabled", value.length === 0);
-}
 
 /**
  * Submit handler for add author form.
