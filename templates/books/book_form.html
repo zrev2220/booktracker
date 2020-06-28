@@ -10,6 +10,7 @@
     // load important control element IDs (used in book_form.js)
     window.authorId = "{{ form.author.id_for_label }}";
     window.categoryId = "{{ form.category.id_for_label }}";
+    window.addAuthorUrl = "{% url 'add-author' %}";
   </script>
   <script src="{% static "scripts/book_form.js" %}"></script>
 {% endblock %}
@@ -47,7 +48,7 @@
       {{ form.author }}
       <div class="list-mod-buttons mt-1">
         <button id="add-entry-{{ form.author.id_for_label }}" class="add-entry-btn btn btn-sm btn-success"
-                type="button" data-target="#{{ form.author.id_for_label }}">
+                type="button" data-toggle="modal" data-target="#add-author-modal">
           <i class="fas fa-plus"></i>
         </button>
         <button id="remove-entry-{{ form.author.id_for_label }}" class="remove-entry-btn btn btn-sm btn-danger"
@@ -66,7 +67,7 @@
       {{ form.category }}
       <div class="list-mod-buttons mt-1">
         <button id="add-entry-{{ form.category.id_for_label }}" class="add-entry-btn btn btn-sm btn-success"
-                type="button" data-target="#{{ form.category.id_for_label }}">
+                type="button">
           <i class="fas fa-plus"></i>
         </button>
         <button id="remove-entry-{{ form.category.id_for_label }}" class="remove-entry-btn btn btn-sm btn-danger"
@@ -118,4 +119,7 @@
       {% endif %}
     </div>
   </form>
+
+  {% include 'books/author_form_modal.html' %}
+
 {% endblock %}
