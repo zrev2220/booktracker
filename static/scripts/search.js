@@ -61,7 +61,7 @@ function onFormSubmit(e) {
   $.post({
     url: window.searchUrl,
     headers: {"X-CSRFToken": data["csrfmiddlewaretoken"]},
-    data: data,
+    data,
     success: data => $("#resultsBody").html(data.html),
   });
 }
