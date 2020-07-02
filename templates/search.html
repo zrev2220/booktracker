@@ -12,6 +12,10 @@
   <script src="{% static "scripts/search.js" %}"></script>
 {% endblock %}
 
+{% block title %}
+  <title>Search | BookTracker</title>
+{% endblock %}
+
 {% block content %}
   <button id="addBookBtn" class="btn btn-outline-success py-1 px-2 mb-4"
           onclick="window.location.href = '{% url 'add-book' %}'">

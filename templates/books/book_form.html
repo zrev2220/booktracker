@@ -15,6 +15,10 @@
   <script src="{% static "scripts/book_form.js" %}"></script>
 {% endblock %}
 
+{% block title %}
+  <title>{% if edit %}Edit{% else %}Add{% endif %} Book | BookTracker</title>
+{% endblock %}
+
 {% block content %}
   <div id="title" class="d-flex flex-column flex-sm-row align-items-baseline mb-3">
     <h1 class="d-inline-block mr-1">
