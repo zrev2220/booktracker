@@ -5,6 +5,10 @@ label {
   line-height: 37px;
 }
 
+#addBookBtn {
+  margin-bottom: 20px;
+}
+
 .filter-toggles {
   display: flex;
   justify-content: left;

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block styles %}
@@ -6,26 +6,35 @@
 {% endblock %}
 
 {% block scripts %}
+  <script>
+    window.searchUrl = "{% url "books-search-ajax" %}";
+  </script>
   <script src="{% static "scripts/search.js" %}"></script>
 {% endblock %}
 
-{% block content %}
-  <a href="/add" class="btn btn-outline-success py-1 px-2">Add Book</a>
-  <br>
-  <br>
+{% block title %}
+  <title>Search | BookTracker</title>
+{% endblock %}
 
-  <form id="searchForm" action="/" method="post" class="mb-2">{% csrf_token %}
+{% block content %}
+  <button id="addBookBtn" class="btn btn-outline-success py-1 px-2 mb-4"
+          onclick="window.location.href = '{% url 'add-book' %}'">
+    Add Book
+  </button>
+
+  <form id="searchForm" method="post" class="mb-2">{% csrf_token %}
     <h3>Search</h3>
     <div class="form-row mb-2 filter-toggles">
       <input type="hidden" id="activeFilters" name="activeFilters" value='["title"]'>
       {% for key, values in filter_options.items %}
-        <button class="btn btn-outline-primary mb-2 filter-btn" type="button" data-filter="{{ key }}" data-toggle="collapse"
+        <button class="btn btn-outline-primary mb-2 filter-btn" type="button" data-filter="{{ key }}"
+                data-toggle="collapse"
                 data-target="#{{ key }}Div" aria-expanded="true" aria-controls="{{ key }}Div">
           {{ values.desc }}
         </button>
       {% endfor %}
     </div>
-{#  TODO: Generalize these components to allow {% for %}-ing#}
+    {# TODO: Generalize these components to allow {% for %}-ing#}
     <div class="form-row collapse" id="titleDiv">
       <div class="col-md-3 col-lg-2 mb-2">
         <label for="title" class="text-md-center mb-0">Title</label>
@@ -101,23 +110,10 @@
         <input type="hidden" id="andOrHidden" name="andOr" value="and">
       </div>
     </div>
-    <div class="form-row d-flex flex-column maxw-max-content">
-      <button id="searchBtn" class="btn btn-primary w-100 mt-4">
-        <i class="fas fa-search"></i> Search
-      </button>
-    </div>
+    <button id="searchBtn" class="btn btn-primary w-sm-100 mt-4">
+      <i class="fas fa-search"></i> Search
+    </button>
   </form>
 
-  <h4 id="noResultsLabel" class="font-italic font-weight-light d-none">No results</h4>
-  <table id="resultsTable" class="table d-none">
-    <thead>
-      <tr>
-        <th scope="col">Author</th>
-        <th scope="col">Title</th>
-        <th scope="col" class="d-none d-sm-table-cell">Location</th>
-      </tr>
-    </thead>
-    <tbody id="resultsBody">
-    </tbody>
-  </table>
+  <div id="resultsBody"></div>
 {% endblock %}

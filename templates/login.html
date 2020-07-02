@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static "stylesheets/login.css" %}">
+{% endblock %}
+
+{% block title %}
+  <title>Login | BookTracker</title>
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block content %}
+  <div class="jumbotron d-flex flex-column align-items-center pb-0 mb-2">
+    <h1 id="title" class="display-4 position-relative">
+      <i class="fas fa-book-reader"></i> BookTracker
+      <span id="login-version-lbl" class="text-muted">v{% app_version %}</span>
+    </h1>
+    <p class="lead">Please log in</p>
+  </div>
+  {% if form.errors %}
+    <p class="text-danger text-center">
+      Seems your username or password was incorrect. Please enter valid credentials.
+    </p>
+  {% endif %}
+  <form method="post" action="{% url "login" %}" id="login-form" class="px-sm-5 m-auto">{% csrf_token %}
+    <input class="form-control mb-3" name="username" placeholder="Username" value="{{ username|default:'' }}">
+    <input class="form-control mb-3" name="password" type="password" placeholder="Password"
+           value="{{ password|default:'' }}">
+    <input class="form-control btn btn-primary" name="login" type="submit" value="Login">
+    <input type="hidden" name="next" value="{{ next }}">
+  </form>
+{% endblock %}

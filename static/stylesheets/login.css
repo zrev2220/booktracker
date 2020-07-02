@@ -1,0 +1,21 @@
+#login-version-lbl {
+  position: absolute;
+  bottom: 0;
+  font-size: 10px;
+}
+
+.jumbotron {
+  background: none;
+}
+
+@media screen and (max-width: 415px) {
+  #title {
+    font-size: 10.8vw;
+  }
+}
+
+@media screen and (min-width: 575px) {
+  #login-form {
+    max-width: 510px;
+  }
+}
