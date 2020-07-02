@@ -10,6 +10,7 @@
     // load important control element IDs (used in book_form.js)
     window.authorId = "{{ form.author.id_for_label }}";
     window.categoryId = "{{ form.category.id_for_label }}";
+    window.addAuthorUrl = "{% url 'add-author' %}";
   </script>
   <script src="{% static "scripts/book_form.js" %}"></script>
 {% endblock %}
@@ -45,16 +46,10 @@
         <span class="text-danger">*</span>
       {% endif %}
       {{ form.author }}
-      <div class="list-mod-buttons mt-1">
-        <button id="add-entry-{{ form.author.id_for_label }}" class="add-entry-btn btn btn-sm btn-success"
-                type="button" data-target="#{{ form.author.id_for_label }}">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button id="remove-entry-{{ form.author.id_for_label }}" class="remove-entry-btn btn btn-sm btn-danger"
-                type="button" data-target="#{{ form.author.id_for_label }}">
-          <i class="fas fa-minus"></i>
-        </button>
-      </div>
+      <button id="add-entry-{{ form.author.id_for_label }}" class="add-entry-btn btn btn-sm btn-outline-success mt-1"
+              type="button" data-toggle="modal" data-target="#add-author-modal">
+        Add author
+      </button>
     </div>
     {# Category field #}
     {# TODO Convert to field of checkboxes #}
@@ -64,16 +59,10 @@
         <span class="text-danger">*</span>
       {% endif %}
       {{ form.category }}
-      <div class="list-mod-buttons mt-1">
-        <button id="add-entry-{{ form.category.id_for_label }}" class="add-entry-btn btn btn-sm btn-success"
-                type="button" data-target="#{{ form.category.id_for_label }}">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button id="remove-entry-{{ form.category.id_for_label }}" class="remove-entry-btn btn btn-sm btn-danger"
-                type="button" data-target="#{{ form.category.id_for_label }}">
-          <i class="fas fa-minus"></i>
-        </button>
-      </div>
+      <button id="add-entry-{{ form.category.id_for_label }}" class="add-entry-btn btn btn-sm btn-outline-success mt-1"
+              type="button" disabled>
+        Add category
+      </button>
     </div>
     {# Location field #}
     <div class="form-field-row mb-1">
@@ -114,8 +103,12 @@
                value="Save & Add Another" name="save+add">
       {% else %}
         <button id="cancel-btn" class="w-sm-100 btn btn-outline-primary .outline-btn-solid-bg my-1"
-          onclick="window.location.href='{% url 'book-detail' object.id %}'; return false;">Cancel</button>
+                onclick="window.location.href='{% url 'book-detail' object.id %}'; return false;">Cancel
+        </button>
       {% endif %}
     </div>
   </form>
+
+  {% include 'books/author_form_modal.html' %}
+
 {% endblock %}

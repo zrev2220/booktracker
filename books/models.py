@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from people.models import Person
 
@@ -5,6 +6,11 @@ from people.models import Person
 class Author(models.Model):
     first_name = models.CharField(max_length=1023, blank=True)
     last_name = models.CharField(max_length=1023)
+
+    def clean(self):
+        # Require non-empty last name
+        if self.last_name is None or len(self.last_name) == 0:
+            raise ValidationError("Author last name must be non-blank")
 
     def get_full_name(self, reverse=False):
         if reverse:
@@ -14,6 +20,9 @@ class Author(models.Model):
 
     def __str__(self):
         return self.get_full_name()
+
+    class Meta:
+        unique_together = ('first_name', 'last_name')
 
 
 class Category(models.Model):

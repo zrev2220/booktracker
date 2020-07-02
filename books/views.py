@@ -2,6 +2,7 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ValidationError
 from django.db.models import Q, F, Func, Value
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -96,7 +97,7 @@ def book_search(request):
 
         :param request: Request object from AJAX request.
         :return: JSON list of search results.
-        """
+    """
     # TODO: try to hack this with Postman and harden it
     # TODO: add paging
     # TODO: after paging, allow retrieving all records
@@ -200,3 +201,35 @@ class BookDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["overdue"] = timezone.now().date() > self.object.return_date if self.object.return_date else False
         return context
+
+
+def add_author_ajax(request):
+    """
+    View for adding an author via AJAX request.
+
+    Returns a response with the following properties:
+
+    - ``errors``: List of error messages, if any occurred.
+    - ``author``: If author creation succeeded, information about the newly-added author:
+
+      - ``id``: ID of added author.
+      - ``first_name``: Added author's first name
+      - ``last_name``: Added author's last name
+      - ``full_name``: Added author's full name (as given by `Author.get_full_name()`)
+    """
+    response = {}
+    first_name = request.POST["firstName"]
+    last_name = request.POST["lastName"]
+    try:
+        a = Author(first_name=first_name, last_name=last_name)
+        a.full_clean()
+        a.save()
+        response["author"] = {
+            "id": a.id,
+            "first_name": a.first_name,
+            "last_name": a.last_name,
+            "full_name": a.get_full_name(),
+        }
+    except ValidationError as e:
+        response["errors"] = e.message_dict["__all__"]
+    return JsonResponse(response)
