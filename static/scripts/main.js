@@ -1,3 +1,5 @@
+"use strict";
+
 $(() => {
   // stagger multiple alerts slightly
   let margin = 0;
