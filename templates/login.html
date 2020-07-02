@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_tags %}
 
 {% block styles %}
   <link rel="stylesheet" href="{% static "stylesheets/login.css" %}">
@@ -14,8 +15,9 @@
 
 {% block content %}
   <div class="jumbotron d-flex flex-column align-items-center pb-0 mb-2">
-    <h1 id="title" class="display-4">
+    <h1 id="title" class="display-4 position-relative">
       <i class="fas fa-book-reader"></i> BookTracker
+      <span id="login-version-lbl" class="text-muted">v{% app_version %}</span>
     </h1>
     <p class="lead">Please log in</p>
   </div>

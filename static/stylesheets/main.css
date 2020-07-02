@@ -1,3 +1,9 @@
+#version-lbl {
+  position: absolute;
+  top: -8px;
+  font-size: 10px;
+}
+
 #message-alerts {
   position: fixed;
   top: 10px;
