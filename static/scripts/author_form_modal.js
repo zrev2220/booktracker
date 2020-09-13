@@ -54,3 +54,14 @@ function onAuthorFormSubmit(e, $modal, isEditing = false) {
       $errorContainer.html(`<small class="text-danger">An unexpected error occurred: ${err}</small>`);
     });
 }
+
+/**
+ * Sets the name input fields of a author edit field to the given fields.
+ * @param $modal JQuery to the modal whose fields should be set.
+ * @param firstName Value to set the first name input to.
+ * @param lastName Value to set the last name input to.
+ */
+function setAuthorModalFields($modal, firstName, lastName) {
+  $modal.find("#first-name-txt").val(firstName);
+  $modal.find("#last-name-txt").val(lastName);
+}

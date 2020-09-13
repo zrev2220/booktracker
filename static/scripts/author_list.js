@@ -1,5 +1,14 @@
 "use strict";
 
+/**
+ * Object containing info about the currently-selected author.
+ * @type {{
+ *   id: number,
+ *   firstName: string,
+ *   lastName: string,
+ *   fullName: string,
+ * } | null}
+ */
 let selectedAuthor = null;
 
 $(() => {
@@ -17,27 +26,48 @@ $(() => {
   );
 });
 
-function setAuthorModalFields($modal, firstName, lastName) {
-  $modal.find("#first-name-txt").val(firstName);
-  $modal.find("#last-name-txt").val(lastName);
-}
-
+/**
+ * Handler for when the edit author modal is about to show.
+ *
+ * Sets the form fields using info from the {@link selectedAuthor} object.
+ * @param e `hidden.bs.modal` event object.
+ */
 function onEditModalWillShow(e) {
   setAuthorModalFields($(e.target), selectedAuthor.firstName, selectedAuthor.lastName);
 }
 
+/**
+ * Handler for after the edit author modal is hidden.
+ *
+ * Clears the form fields and the {@link selectedAuthor} object.
+ * @param e `hidden.bs.modal` event object.
+ */
 function onEditModalDidHide(e) {
   setAuthorModalFields($(e.target), "", "");
   selectedAuthor = null;
 }
 
-function editAuthor(id, firstName, lastName) {
-  selectedAuthor = {id, firstName, lastName};
+/**
+ * Opens a modal for editing an author entry.
+ * @param id ID of author.
+ * @param firstName First name of author.
+ * @param lastName Last name of author.
+ * @param fullName Full name of author.
+ */
+function editAuthor(id, firstName, lastName, fullName) {
+  selectedAuthor = {id, firstName, lastName, fullName};
   $("#edit-author-modal").modal();
 }
 
-function deleteAuthor(id, firstName, lastName) {
-  selectedAuthor = {id, firstName, lastName};
+/**
+ * Opens a modal confirming author deletion.
+ * @param id ID of author.
+ * @param firstName First name of author.
+ * @param lastName Last name of author.
+ * @param fullName Full name of author.
+ */
+function deleteAuthor(id, firstName, lastName, fullName) {
+  selectedAuthor = {id, firstName, lastName, fullName};
   $("#delete-author-modal").modal();
 }
 

@@ -29,13 +29,15 @@
           <td class="last-name">{{ author.last_name }}</td>
           <td class="fit">
             <button class="btn btn-primary"
-                    onclick="editAuthor({{ author.id }}, '{{ author.first_name }}', '{{ author.last_name }}')">
+                    onclick="editAuthor({{ author.id }}, '{{ author.first_name }}', '{{ author.last_name }}',
+                      '{{ author.get_full_name }}')">
               <i class="fas fa-pen"></i>
             </button>
           </td>
           <td class="fit">
             <button class="btn btn-danger"
-                    onclick="deleteAuthor({{ author.id }}, '{{ author.first_name }}', '{{ author.last_name }}')">
+                    onclick="deleteAuthor({{ author.id }}, '{{ author.first_name }}', '{{ author.last_name }}',
+                      '{{ author.get_full_name }}')">
               <i class="fas fa-trash-alt"></i>
             </button>
           </td>
