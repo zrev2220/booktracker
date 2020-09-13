@@ -24,6 +24,14 @@
   border-color: inherit;
 }
 
+/* General-purpose table column shrink-to-content class. */
+/* From https://stackoverflow.com/a/31184284/6548555 */
+.table th.fit,
+.table td.fit {
+  white-space: nowrap;
+  width: 1%;
+}
+
 @media screen and (max-width: 576px) {
   /* General-purpose width: 100% class for <=sm screens. */
   .w-sm-100 {

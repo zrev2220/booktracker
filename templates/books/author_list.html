@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+  <script src="{% static "scripts/author_list.js" %}"></script>
+  <script src="{% static "scripts/author_form_modal.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+  <button id="add-author-btn" class="btn btn-outline-success py-1 px-2 mb-4" data-toggle="modal"
+          data-target="#add-author-modal">
+    Add Author
+  </button>
+  {% if object_list|length > 0 %}
+    {% include "pagination_controls.html" %}
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col" class="fit text-center"><i class="fas fa-pen"></i></th>
+        <th scope="col" class="fit text-center"><i class="fas fa-trash-alt"></i></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for author in object_list %}
+        <tr id="author-item-{{ author.id }}">
+          <td class="first-name">{{ author.first_name|default_if_none:"" }}</td>
+          <td class="last-name">{{ author.last_name }}</td>
+          <td class="fit">
+            <button class="btn btn-primary"
+                    onclick="editAuthor({{ author.id }}, '{{ author.first_name }}', '{{ author.last_name }}')">
+              <i class="fas fa-pen"></i>
+            </button>
+          </td>
+          <td class="fit">
+            <button class="btn btn-danger"
+                    onclick="deleteAuthor({{ author.id }}, '{{ author.first_name }}', '{{ author.last_name }}')">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% include "pagination_controls.html" %}
+  {% else %}
+    <div id="empty-msg" class="jumbotron">
+      You have no authors yet
+    </div>
+  {% endif %}
+
+  {% include "books/author_form_modal.html" %}
+  {% include "books/author_form_modal.html" with modal_id="edit-author-modal" modal_title="Edit Author" modal_submit_text="Save" %}
+
+{% endblock %}

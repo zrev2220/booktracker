@@ -1,6 +1,7 @@
 import json
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Q, F, Func, Value
@@ -8,7 +9,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from django.views.generic.base import TemplateView
 
 from books.forms import BookForm
@@ -203,32 +204,55 @@ class BookDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-def add_author_ajax(request):
+class AuthorListView(LoginRequiredMixin, ListView):
     """
-    View for adding an author via AJAX request.
+    List view for authors.
+    """
+    model = Author
+    paginate_by = 30
+    ordering = 'last_name'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context["current_page"] = "Authors"
+        return context
+
+
+@login_required()
+def add_edit_author_ajax(request):
+    """
+    View for adding or editing an author via AJAX request.
 
     Returns a response with the following properties:
 
     - ``errors``: List of error messages, if any occurred.
-    - ``author``: If author creation succeeded, information about the newly-added author:
+    - ``author``: If author creation/modification succeeded, information about the author:
 
-      - ``id``: ID of added author.
-      - ``first_name``: Added author's first name
-      - ``last_name``: Added author's last name
-      - ``full_name``: Added author's full name (as given by `Author.get_full_name()`)
+      - ``id``: ID of author.
+      - ``first_name``: Author's first name
+      - ``last_name``: Author's last name
+      - ``full_name``: Author's full name (as given by `Author.get_full_name()`)
     """
     response = {}
+    author_id = request.POST.get("id", None)
     first_name = request.POST["firstName"]
     last_name = request.POST["lastName"]
     try:
-        a = Author(first_name=first_name, last_name=last_name)
-        a.full_clean()
-        a.save()
+        if author_id is not None:
+            # edit existing author
+            author = Author.objects.get(id=author_id)
+            author.first_name = first_name
+            author.last_name = last_name
+        else:
+            # create new author
+            author = Author(first_name=first_name, last_name=last_name)
+        author.full_clean()
+        author.save()
         response["author"] = {
-            "id": a.id,
-            "first_name": a.first_name,
-            "last_name": a.last_name,
-            "full_name": a.get_full_name(),
+            "id": author.id,
+            "first_name": author.first_name,
+            "last_name": author.last_name,
+            "full_name": author.get_full_name(),
         }
     except ValidationError as e:
         response["errors"] = e.message_dict["__all__"]

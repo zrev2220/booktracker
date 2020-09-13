@@ -10,9 +10,9 @@
     // load important control element IDs (used in book_form.js)
     window.authorId = "{{ form.author.id_for_label }}";
     window.categoryId = "{{ form.category.id_for_label }}";
-    window.addAuthorUrl = "{% url 'add-author' %}";
   </script>
   <script src="{% static "scripts/book_form.js" %}"></script>
+  <script src="{% static "scripts/author_form_modal.js" %}"></script>
 {% endblock %}
 
 {% block title %}
