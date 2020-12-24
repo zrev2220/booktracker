@@ -144,7 +144,7 @@ def book_search(request):
     })
 
 
-class AddBookView(LoginRequiredMixin, CreateView):
+class BookAddView(LoginRequiredMixin, CreateView):
     """
     Page containing a form to create a book object.
     """
@@ -162,7 +162,7 @@ class AddBookView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class EditBookView(LoginRequiredMixin, UpdateView):
+class BookEditView(LoginRequiredMixin, UpdateView):
     """
     Page for editing/updating a book object's information.
     """
@@ -179,7 +179,7 @@ class EditBookView(LoginRequiredMixin, UpdateView):
         return reverse('book-detail', args=(self.object.id,))
 
 
-class DeleteBookView(LoginRequiredMixin, DeleteView):
+class BookDeleteView(LoginRequiredMixin, DeleteView):
     """
     View for deleting a book.
 
