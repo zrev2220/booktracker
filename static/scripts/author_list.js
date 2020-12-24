@@ -67,8 +67,9 @@ function editAuthor(id, firstName, lastName, fullName) {
  * @param fullName Full name of author.
  */
 function deleteAuthor(id, firstName, lastName, fullName) {
-  selectedAuthor = {id, firstName, lastName, fullName};
-  $("#delete-author-modal").modal();
+  console.warn('Author deletion not yet supported');
+  // selectedAuthor = {id, firstName, lastName, fullName};
+  // $("#delete-author-modal").modal();
 }
 
 /**
