@@ -6,10 +6,10 @@ from books.views import BookAddView, BookEditView, BookDeleteView, BookDetailVie
 urlpatterns = [
     path('', HomePageView.as_view(), name='books-search'),
     path('search/', book_search, name='books-search-ajax'),
-    path('add/', BookAddView.as_view(), name='add-book'),
+    path('add/', BookAddView.as_view(), name='book-add'),
     path('details/<int:pk>', BookDetailView.as_view(), name='book-detail'),
-    path('edit/<int:pk>', BookEditView.as_view(), name='edit-book'),
-    path('delete/<int:pk>', BookDeleteView.as_view(), name='delete-book'),
-    path('authors/', AuthorListView.as_view(), name='authors'),
-    path('authors/ajax-form', add_edit_author_ajax, name='add-edit-author')
+    path('edit/<int:pk>', BookEditView.as_view(), name='book-edit'),
+    path('delete/<int:pk>', BookDeleteView.as_view(), name='book-delete'),
+    path('authors/', AuthorListView.as_view(), name='list-authors'),
+    path('authors/ajax-form', add_edit_author_ajax, name='author-add-edit')
 ]

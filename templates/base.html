@@ -63,7 +63,7 @@ Copyright 2020
         <a class="nav-item nav-link {% if current_page == "Checkouts" %}text-primary font-weight-bold{% endif %}"
            href="/TODO">Checkouts</a>
         <a class="nav-item nav-link {% if current_page == "Authors" %}text-primary font-weight-bold{% endif %}"
-           href="{% url "authors" %}">Authors</a>
+           href="{% url "list-authors" %}">Authors</a>
         <form id="logoutForm" class="form-inline" method="post" action="{% url "logout" %}">{% csrf_token %}
           <a class="nav-item nav-link" href="javascript:void(0);" onclick="$('#logoutForm').submit();">Logout</a>
         </form>

@@ -153,7 +153,7 @@ class BookAddView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         if self.request.POST.get("save+add"):
-            return reverse("add-book")
+            return reverse("book-add")
         else:
             return reverse("books-search")
 
