@@ -14,15 +14,19 @@ class Author(models.Model):
 
     def get_full_name(self, reverse=False):
         if reverse:
-            return ", ".join([name for name in (self.last_name, self.first_name) if name])
+            return ", ".join(
+                [name for name in (self.last_name, self.first_name) if name]
+            )
         else:
-            return " ".join([name for name in (self.first_name, self.last_name) if name])
+            return " ".join(
+                [name for name in (self.first_name, self.last_name) if name]
+            )
 
     def __str__(self):
         return self.get_full_name()
 
     class Meta:
-        unique_together = ('first_name', 'last_name')
+        unique_together = ("first_name", "last_name")
 
 
 class Category(models.Model):
@@ -43,8 +47,9 @@ class Book(models.Model):
     return_date = models.DateField(blank=True, null=True)
     author = models.ManyToManyField(Author, blank=True)
     category = models.ManyToManyField(Category)
-    checkout = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
+    checkout = models.ForeignKey(
+        Person, on_delete=models.CASCADE, blank=True, null=True
+    )
 
     def __str__(self):
         return self.title
-

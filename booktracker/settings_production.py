@@ -16,6 +16,6 @@ except ImportError:
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*'] if DEBUG else []
+ALLOWED_HOSTS = ["*"] if DEBUG else []
 
 django_heroku.settings(locals())

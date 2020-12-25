@@ -19,7 +19,9 @@ def render_error(request, status_code):
         "current_page": "Error",
         "status_code": status_code,
         "errtitle": errtitles.get(status_code, "OK"),
-        "errmsg": errmsgs.get(status_code, "How is that an error? Seems like everything is fine."),
+        "errmsg": errmsgs.get(
+            status_code, "How is that an error? Seems like everything is fine."
+        ),
     }
     return render(request, "error.html", context, "text/html", status_code)
 

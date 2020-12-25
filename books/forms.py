@@ -17,26 +17,40 @@ def AttrWidget(widget, attrs: dict = None):
         attrs = {}
     # add Bootstrap .form-control
     attrs["class"] = attrs.get("class", "") + " form-control"
-    return widget(
-        attrs=attrs
-    )
+    return widget(attrs=attrs)
 
 
 class BookForm(forms.ModelForm):
     """
     Form for Book model.
     """
-    title = forms.CharField(max_length=2047, widget=AttrWidget(forms.TextInput))
-    location = forms.CharField(max_length=255, required=False, widget=AttrWidget(forms.TextInput))
-    notes = forms.CharField(required=False, widget=AttrWidget(forms.Textarea, {"rows": "5"}))
-    return_date = forms.DateField(required=False, widget=AttrWidget(forms.DateInput, {"type": "date"}))
 
-    author = forms.ModelMultipleChoiceField(Author.objects.all().order_by('last_name', 'first_name'), required=False,
-                                            widget=AttrWidget(forms.SelectMultiple))
-    category = forms.ModelMultipleChoiceField(Category.objects.all().order_by('descr'), required=False,
-                                              widget=AttrWidget(forms.SelectMultiple))
-    checkout = forms.ModelChoiceField(Person.objects.all().order_by('first_name', 'last_name'), required=False,
-                                      widget=AttrWidget(forms.Select))
+    title = forms.CharField(max_length=2047, widget=AttrWidget(forms.TextInput))
+    location = forms.CharField(
+        max_length=255, required=False, widget=AttrWidget(forms.TextInput)
+    )
+    notes = forms.CharField(
+        required=False, widget=AttrWidget(forms.Textarea, {"rows": "5"})
+    )
+    return_date = forms.DateField(
+        required=False, widget=AttrWidget(forms.DateInput, {"type": "date"})
+    )
+
+    author = forms.ModelMultipleChoiceField(
+        Author.objects.all().order_by("last_name", "first_name"),
+        required=False,
+        widget=AttrWidget(forms.SelectMultiple),
+    )
+    category = forms.ModelMultipleChoiceField(
+        Category.objects.all().order_by("descr"),
+        required=False,
+        widget=AttrWidget(forms.SelectMultiple),
+    )
+    checkout = forms.ModelChoiceField(
+        Person.objects.all().order_by("first_name", "last_name"),
+        required=False,
+        widget=AttrWidget(forms.Select),
+    )
 
     class Meta:
         model = Book

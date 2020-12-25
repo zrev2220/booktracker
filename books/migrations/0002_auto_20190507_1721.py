@@ -6,30 +6,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('books', '0001_initial'),
+        ("books", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='book',
-            name='author',
-            field=models.ManyToManyField(blank=True, null=True, to='books.Author'),
+            model_name="book",
+            name="author",
+            field=models.ManyToManyField(blank=True, null=True, to="books.Author"),
         ),
         migrations.AlterField(
-            model_name='book',
-            name='location',
-            field=models.CharField(blank=True, default='', max_length=255),
+            model_name="book",
+            name="location",
+            field=models.CharField(blank=True, default="", max_length=255),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='book',
-            name='notes',
-            field=models.TextField(blank=True, default=''),
+            model_name="book",
+            name="notes",
+            field=models.TextField(blank=True, default=""),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='book',
-            name='return_date',
+            model_name="book",
+            name="return_date",
             field=models.DateField(blank=True, null=True),
         ),
     ]
