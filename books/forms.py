@@ -7,9 +7,11 @@ from people.models import Person
 # noinspection PyPep8Naming
 def AttrWidget(widget, attrs: dict = None):
     """
-    Returns a Widget class, modified with Bootstrap .form-control CSS class, as well as any other given attributes.
+    Returns a Widget class, modified with Bootstrap .form-control CSS class, as well as
+    any other given attributes.
 
-    :param widget: Widget class reference for which to return a modified class reference.
+    :param widget: Widget class reference for which to return a modified class
+        reference.
     :param attrs: Dictionary of HTML attributes to add to the returned Widget class.
     :return: A Widget class, modified with the given attributes applied.
     """

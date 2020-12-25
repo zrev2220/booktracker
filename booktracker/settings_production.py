@@ -7,7 +7,7 @@ import django_heroku
 
 # Import from development settings
 try:
-    from .settings import *
+    from .settings import *  # noqa: F401,F403
 except ImportError:
     pass
 

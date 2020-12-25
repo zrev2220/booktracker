@@ -10,7 +10,7 @@ errmsgs = {
     "400": "What was that? You gotta format the HTTP the right way, dude.",
     "403": "Um, no. You can't go there, you lowly peasant with no special permissions.",
     "404": "That page doesn't exist. Please go back and visit a page that exists.",
-    "500": "Oh wow--a transistor blew on our end or something. Well, just hope it doesn't happen again...",
+    "500": "Oh wow--a transistor blew on our end or something. Well, just hope it doesn't happen again...",  # noqa E501
 }
 
 

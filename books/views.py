@@ -30,7 +30,8 @@ FILTER_DICT = {
     },
     "author-whole": {
         "desc": "Author (First+Last)",
-        "op": "author_whole_name",  # requires annotation to be added to queryset to concatenate names
+        # requires annotation to be added to queryset to concatenate names
+        "op": "author_whole_name",
     },
 }
 MATCH_DICT = {
@@ -67,7 +68,7 @@ class HomePageView(LoginRequiredMixin, TemplateView):
             [
                 {
                     "id": a.id,
-                    "name": f"{a.last_name}{', ' if a.last_name and a.first_name else ''}{a.first_name}",
+                    "name": f"{a.last_name}{', ' if a.last_name and a.first_name else ''}{a.first_name}",  # noqa E501
                 }
                 for a in Author.objects.all()
             ],
@@ -94,7 +95,8 @@ def book_search(request):
     """
     AJAX book search endpoint.
 
-    Performs search given certain filters and returns results in JSON in the following structure::
+    Performs search given certain filters and returns results in JSON in the following
+    structure::
 
         {
             "id": int,
@@ -212,7 +214,8 @@ class DeleteBookView(LoginRequiredMixin, DeleteView):
     """
     View for deleting a book.
 
-    Does not have a dedicated confirmation page. As such, should never be called via GET, only POST.
+    Does not have a dedicated confirmation page. As such, should never be called via
+    GET, only POST.
     """
 
     model = Book
@@ -246,7 +249,8 @@ def add_author_ajax(request):
     Returns a response with the following properties:
 
     - ``errors``: List of error messages, if any occurred.
-    - ``author``: If author creation succeeded, information about the newly-added author:
+    - ``author``: If author creation succeeded, information about the newly-added
+                  author:
 
       - ``id``: ID of added author.
       - ``first_name``: Added author's first name
