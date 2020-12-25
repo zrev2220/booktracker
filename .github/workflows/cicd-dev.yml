@@ -6,8 +6,10 @@ on:
   pull_request:
     branches:
       - $default-branch
+env:
+  SECRET_KEY: astupidsecretjusttogetcicdworking
 jobs:
-  build:
+  build-lint-test:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
