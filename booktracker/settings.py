@@ -88,11 +88,11 @@ WSGI_APPLICATION = "booktracker.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "booktracker",
-        "USER": "booktracker_user",
+        "NAME": os.getenv("DATABASE_NAME", "booktracker"),
+        "USER": os.getenv("DATABASE_USER", "booktracker_user"),
         "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-        "HOST": "127.0.0.1",
-        "PORT": "",
+        "HOST": os.getenv("DATABASE_HOST", "127.0.0.1"),
+        "PORT": os.getenv("DATABASE_PORT", ""),
     },
 }
 
