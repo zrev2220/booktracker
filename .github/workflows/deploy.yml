@@ -8,12 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy Warning
-        if: ${{ github.ref }} != refs/heads/$DEFAULT_BRANCH
+        if: ${{ github.ref != format('refs/heads/{0}', env.DEFAULT_BRANCH) }}
         run: |
           echo "::error ::Cannot deploy from non-default branch ${{ github.ref }}"
           exit 1
       - name: Deploy to Heroku
-        if: ${{ github.ref }} == refs/heads/$DEFAULT_BRANCH
+        if: ${{ github.ref == format('refs/heads/{0}', env.DEFAULT_BRANCH) }}
         uses: akhileshns/heroku-deploy@v3.8.8
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
