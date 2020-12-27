@@ -1,14 +1,12 @@
 name: "Deploy"
 on: workflow_dispatch
 env:
-  DEFAULT_BRANCH: $default-branch
+  DEFAULT_BRANCH: master
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Echo Default Branch
-        run: echo $DEFAULT_BRANCH
       - name: Deploy Warning
         if: ${{ github.ref }} != refs/heads/$DEFAULT_BRANCH
         run: |
