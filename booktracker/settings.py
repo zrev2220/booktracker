@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Load environment vars from .env file (if present)
 
-APP_VERSION = "1.0.1"
+APP_VERSION = "1.1.0"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
