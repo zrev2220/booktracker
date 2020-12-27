@@ -10,7 +10,7 @@ jobs:
       - name: Deploy Warning
         if: ${{ github.ref }} != refs/heads/$DEFAULT_BRANCH
         run: |
-          echo "::warning ::Cannot deploy from non-default branch ${{ github.ref }}"
+          echo "::error ::Cannot deploy from non-default branch ${{ github.ref }}"
           exit 1
       - name: Deploy to Heroku
         if: ${{ github.ref }} == refs/heads/$DEFAULT_BRANCH
