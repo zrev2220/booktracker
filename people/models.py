@@ -9,9 +9,13 @@ class Person(models.Model):
 
     def get_full_name(self, reverse=False):
         if reverse:
-            return ", ".join([name for name in (self.last_name, self.first_name) if name])
+            return ", ".join(
+                [name for name in (self.last_name, self.first_name) if name]
+            )
         else:
-            return " ".join([name for name in (self.first_name, self.last_name) if name])
+            return " ".join(
+                [name for name in (self.first_name, self.last_name) if name]
+            )
 
     def __str__(self):
         return self.get_full_name()

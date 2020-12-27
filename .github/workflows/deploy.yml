@@ -1,0 +1,15 @@
+name: "Deploy"
+on: workflow_dispatch
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: $default-branch
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.8.8
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "booktracker-hayes"
+          heroku_email: "zrev2220@gmail.com"

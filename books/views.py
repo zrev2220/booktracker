@@ -9,7 +9,13 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
+from django.views.generic import (
+    CreateView,
+    UpdateView,
+    DeleteView,
+    DetailView,
+    ListView,
+)
 from django.views.generic.base import TemplateView
 
 from books.forms import BookForm
@@ -60,17 +66,27 @@ class HomePageView(LoginRequiredMixin, TemplateView):
 
     Displays search form.
     """
+
     template_name = "search.html"
 
     def get_context_data(self, **kwargs):
-        authors = sorted([{
-            "id": a.id,
-            "name": f"{a.last_name}{', ' if a.last_name and a.first_name else ''}{a.first_name}",
-        } for a in Author.objects.all()], key=lambda a: a["name"])
-        categories = [{
-            "id": c.id,
-            "name": c.descr,
-        } for c in Category.objects.all().order_by("descr")]
+        authors = sorted(
+            [
+                {
+                    "id": a.id,
+                    "name": f"{a.last_name}{', ' if a.last_name and a.first_name else ''}{a.first_name}",
+                }
+                for a in Author.objects.all()
+            ],
+            key=lambda a: a["name"],
+        )
+        categories = [
+            {
+                "id": c.id,
+                "name": c.descr,
+            }
+            for c in Category.objects.all().order_by("descr")
+        ]
 
         context = super().get_context_data(**kwargs)
         context["current_page"] = "Home"
@@ -83,28 +99,30 @@ class HomePageView(LoginRequiredMixin, TemplateView):
 
 def book_search(request):
     """
-        AJAX book search endpoint.
+    AJAX book search endpoint.
 
-        Performs search given certain filters and returns results in JSON in the following structure::
+    Performs search given certain filters and returns results in JSON in the following structure::
 
-            {
-                "id": int,
-                "title": string,
-                "author_first": string,
-                "author_last": string,
-                "checkout": boolean,
-                "location": string,
-            }[]
+        {
+            "id": int,
+            "title": string,
+            "author_first": string,
+            "author_last": string,
+            "checkout": boolean,
+            "location": string,
+        }[]
 
-        :param request: Request object from AJAX request.
-        :return: JSON list of search results.
+    :param request: Request object from AJAX request.
+    :return: JSON list of search results.
     """
     # TODO: try to hack this with Postman and harden it
     # TODO: add paging
     # TODO: after paging, allow retrieving all records
     # get selected filters
-    filters = set(json.loads(request.POST['activeFilters']))
-    combine = (lambda p, q: p & q) if request.POST['andOr'] == "and" else (lambda p, q: p | q)
+    filters = set(json.loads(request.POST["activeFilters"]))
+    combine = (
+        (lambda p, q: p & q) if request.POST["andOr"] == "and" else (lambda p, q: p | q)
+    )
 
     # for each filter, create Q object
     empty = True
@@ -124,30 +142,47 @@ def book_search(request):
         results = Book.objects
         if "author-whole" in filters:
             # add first+last field
-            results = results.annotate(author_whole_name=Func(Value(' '), F(FILTER_DICT['author-first']['op']),
-                                                              F(FILTER_DICT['author-last']['op']),
-                                                              function="CONCAT_WS"))
-        results = results.filter(query).order_by('title')
-        response = [{
-            "id": obj.id,
-            "title": obj.title,
-            "author_first": obj.author.all()[0].first_name if len(obj.author.all()) > 0 else None,
-            "author_last": obj.author.all()[0].last_name if len(obj.author.all()) > 0 else None,
-            "author_full": obj.author.all()[0].get_full_name(True) if len(obj.author.all()) > 0 else None,
-            "checkout": obj.checkout is not None,  # send boolean, not name
-            "location": obj.location,
-        } for obj in results.all()]
+            results = results.annotate(
+                author_whole_name=Func(
+                    Value(" "),
+                    F(FILTER_DICT["author-first"]["op"]),
+                    F(FILTER_DICT["author-last"]["op"]),
+                    function="CONCAT_WS",
+                )
+            )
+        results = results.filter(query).order_by("title")
+        response = [
+            {
+                "id": obj.id,
+                "title": obj.title,
+                "author_first": obj.author.all()[0].first_name
+                if len(obj.author.all()) > 0
+                else None,
+                "author_last": obj.author.all()[0].last_name
+                if len(obj.author.all()) > 0
+                else None,
+                "author_full": obj.author.all()[0].get_full_name(True)
+                if len(obj.author.all()) > 0
+                else None,
+                "checkout": obj.checkout is not None,  # send boolean, not name
+                "location": obj.location,
+            }
+            for obj in results.all()
+        ]
 
-    return JsonResponse({
-        "html": render_to_string("search_results.html", {"items": response}),
-        "items": response,
-    })
+    return JsonResponse(
+        {
+            "html": render_to_string("search_results.html", {"items": response}),
+            "items": response,
+        }
+    )
 
 
 class BookAddView(LoginRequiredMixin, CreateView):
     """
     Page containing a form to create a book object.
     """
+
     model = Book
     form_class = BookForm
 
@@ -166,6 +201,7 @@ class BookEditView(LoginRequiredMixin, UpdateView):
     """
     Page for editing/updating a book object's information.
     """
+
     model = Book
     form_class = BookForm
 
@@ -176,7 +212,7 @@ class BookEditView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         messages.info(self.request, f'Updated "{self.request.POST.get("title")}"')
-        return reverse('book-detail', args=(self.object.id,))
+        return reverse("book-detail", args=(self.object.id,))
 
 
 class BookDeleteView(LoginRequiredMixin, DeleteView):
@@ -185,22 +221,28 @@ class BookDeleteView(LoginRequiredMixin, DeleteView):
 
     Does not have a dedicated confirmation page. As such, should never be called via GET, only POST.
     """
+
     model = Book
 
     def get_success_url(self):
         messages.error(self.request, f'Deleted "{self.request.POST.get("title")}"')
-        return reverse('books-search')
+        return reverse("books-search")
 
 
 class BookDetailView(LoginRequiredMixin, DetailView):
     """
     Page details about a book object.
     """
+
     model = Book
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["overdue"] = timezone.now().date() > self.object.return_date if self.object.return_date else False
+        context["overdue"] = (
+            timezone.now().date() > self.object.return_date
+            if self.object.return_date
+            else False
+        )
         return context
 
 
@@ -208,9 +250,10 @@ class AuthorListView(LoginRequiredMixin, ListView):
     """
     List view for authors.
     """
+
     model = Author
     paginate_by = 30
-    ordering = 'last_name'
+    ordering = "last_name"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
