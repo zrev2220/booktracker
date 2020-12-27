@@ -20,10 +20,10 @@ from django.urls import path, include
 from booktracker.views import MyLoginView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('books.urls')),
-    path('login/', MyLoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path("admin/", admin.site.urls),
+    path("", include("books.urls")),
+    path("login/", MyLoginView.as_view(), name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     # path('checkout/<id>', ),
     # path('people/', ),
     # path('people/add', ),

@@ -7,7 +7,7 @@ import django_heroku
 
 # Import from development settings
 try:
-    from .settings import *
+    from .settings import *  # noqa: F401,F403
 except ImportError:
     pass
 
@@ -16,6 +16,6 @@ except ImportError:
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*'] if DEBUG else []
+ALLOWED_HOSTS = ["*"] if DEBUG else []
 
 django_heroku.settings(locals())

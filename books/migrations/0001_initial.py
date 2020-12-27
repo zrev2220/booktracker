@@ -7,36 +7,59 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Author',
+            name="Author",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=1023)),
-                ('last_name', models.CharField(max_length=1023)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=1023)),
+                ("last_name", models.CharField(max_length=1023)),
             ],
         ),
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=5, unique=True)),
-                ('descr', models.CharField(max_length=1023)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=5, unique=True)),
+                ("descr", models.CharField(max_length=1023)),
             ],
         ),
         migrations.CreateModel(
-            name='Book',
+            name="Book",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=2047)),
-                ('location', models.CharField(max_length=255, null=True)),
-                ('notes', models.TextField(null=True)),
-                ('return_date', models.DateField(null=True)),
-                ('author', models.ManyToManyField(null=True, to='books.Author')),
-                ('category', models.ManyToManyField(to='books.Category')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=2047)),
+                ("location", models.CharField(max_length=255, null=True)),
+                ("notes", models.TextField(null=True)),
+                ("return_date", models.DateField(null=True)),
+                ("author", models.ManyToManyField(null=True, to="books.Author")),
+                ("category", models.ManyToManyField(to="books.Category")),
             ],
         ),
     ]
