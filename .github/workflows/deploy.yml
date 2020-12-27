@@ -5,9 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: $default-branch
       - name: Deploy to Heroku
+        if: ${{ github.ref == $default-branch }}
         uses: akhileshns/heroku-deploy@v3.8.8
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
