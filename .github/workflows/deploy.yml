@@ -5,11 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Echo Default Branch
+        run: echo $default-branch
       - name: Deploy Warning
-        if: ${{ github.ref }} != $default-branch
-        run: echo "::warning ::Cannot deploy from non-default branch"
+        if: ${{ github.ref }} != refs/heads/$default-branch
+        run: |
+          echo "::warning ::Cannot deploy from non-default branch ${{ github.ref }}"
+          exit 1
       - name: Deploy to Heroku
-        if: ${{ github.ref }} == $default-branch
+        if: ${{ github.ref }} == refs/heads/$default-branch
         uses: akhileshns/heroku-deploy@v3.8.8
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
