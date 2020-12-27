@@ -11,44 +11,39 @@ $(() => {
   $addCategoryBtn = $(`#add-entry-${window.categoryId}`);
 
   // register event handlers
-  $addAuthorModal.find("form").on("submit", e => onAuthorFormSubmit(e));
+  $addAuthorModal.find("form").on("submit",
+    e => afterAuthorSubmit($addAuthorModal, onAuthorFormSubmit(e, $addAuthorModal))
+  );
   // author form dismiss handler; clear inputs after dismissal
   $addAuthorModal.on("hide.bs.modal", e => $(e.target).find(".modal-body input").val(""));
 });
 
 /**
- * Submit handler for add author form.
- *
- * Makes an AJAX request to add an author. On success, adds the author to the top of the author select box and scrolls
- * the new option into view.
- * @param e {Event} Add author form's submit event.
+ * Handler after receiving a response from the add/edit author request.
+ * @param $modal JQuery of modal responsible for the submission.
+ * @param submission {Promise<{
+ *   author?: {
+ *     id: number,
+ *     first_name: string,
+ *     last_name: string,
+ *     full_name: string,
+ *   }
+ *   errors?: string[]
+ * }>} Promise for submission, resolves after request finishes.
  */
-function onAuthorFormSubmit(e) {
-  e.preventDefault();
-  const $form = $(e.target);
-  const data = {};
-  $form.serializeArray().forEach(obj => data[obj.name] = obj.value);
-  $.post({
-    url: window.addAuthorUrl,
-    headers: {"X-CSRF-Token": data["crsfmiddlewaretoken"]},
-    data,
-    success: response => {
-      if (response["errors"]) {
-        // display error messages
-        const $errorContainer = $addAuthorModal.find(".error-div");
-        $errorContainer.html("");  // clear previous errors
-        response["errors"].forEach(errorMsg => $errorContainer.append(`<small class="text-danger">${errorMsg}</small>`));
-      } else {
-        // add author to list
-        const {id, full_name} = response["author"];
-        const $authorSelect = $("#" + window.authorId);
-        $authorSelect.prepend(`<option value="${id}">${full_name}</option>`);
-        // scroll new author into view
-        // see https://stackoverflow.com/a/7206039/6548555
-        $authorSelect.scrollTop($authorSelect.find(`option[value=${id}]`).offset().top - $authorSelect.offset().top);
-        // dismiss modal
-        $addAuthorModal.modal("hide");
-      }
-    },
+function afterAuthorSubmit($modal, submission) {
+  submission.then(response => {
+    if (response.errors) {
+      return;
+    }
+    // add author to list
+    const {id, full_name} = response.author;
+    const $authorSelect = $("#" + window.authorId);
+    $authorSelect.prepend(`<option value="${id}">${full_name}</option>`);
+    // scroll new author into view
+    // see https://stackoverflow.com/a/7206039/6548555
+    $authorSelect.scrollTop($authorSelect.find(`option[value=${id}]`).offset().top - $authorSelect.offset().top);
+    // dismiss modal
+    $modal.modal("hide");
   });
 }

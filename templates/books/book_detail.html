@@ -11,7 +11,7 @@
     <h1 class="d-inline-block mr-1">{{ object.title }}</h1>
   </div>
   <div class="mb-3 d-flex justify-content-start">
-    <button class="btn btn-primary mr-1 w-sm-100" onclick="window.location.href='{% url 'edit-book' object.id %}'">Edit</button>
+    <button class="btn btn-primary mr-1 w-sm-100" onclick="window.location.href='{% url 'book-edit' object.id %}'">Edit</button>
     <button class="btn btn-danger w-sm-100" data-toggle="modal" data-target="#confirm-delete-modal">Delete</button>
   </div>
   <div id="details-table">
