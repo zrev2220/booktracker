@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+django-heroku = "*"
+django-cra-helper = "*"
+pyflakes = "*"
+black = "*"
+python-dotenv = "*"
+psycopg2 = "*"
+gunicorn = "*"
+
+[dev-packages]
+
+[pipenv]
+allow_prereleases = true
