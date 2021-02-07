@@ -61,16 +61,16 @@ jobs:
           pip install --upgrade pipenv
           pipenv install --deploy --dev
       - name: Run migrations
-        run: python manage.py migrate
+        run: pipenv run python manage.py migrate
         env:
           DATABASE_HOST: localhost
           DATABASE_PORT: ${{ job.services.postgres.ports[5432] }}
       - name: Check Linting/Formatting
         run: |
-          black --check .
-          flake8 --extend-exclude venv/
+          pipenv run black --check .
+          pipenv run flake8 --extend-exclude venv/
       - name: Run Tests
-        run: python manage.py test
+        run: pipenv run python manage.py test
         env:
           DATABASE_HOST: localhost
           DATABASE_PORT: ${{ job.services.postgres.ports[5432] }}
