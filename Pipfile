@@ -7,13 +7,13 @@ name = "pypi"
 django = "*"
 django-heroku = "*"
 django-cra-helper = "*"
-pyflakes = "*"
-black = "*"
 python-dotenv = "*"
 psycopg2 = "*"
 gunicorn = "*"
 
 [dev-packages]
+black = "*"
+flake8 = "*"
 
 [pipenv]
 allow_prereleases = true
