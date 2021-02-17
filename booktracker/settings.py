@@ -45,10 +45,9 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "cra_helper",
     "django.contrib.staticfiles",
-    "booktracker",
-    "books.apps.BooksConfig",
-    "people.apps.PeopleConfig",
+    "frontend",
 ]
 
 MIDDLEWARE = [
@@ -74,6 +73,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "cra_helper.context_processors.static"
             ],
         },
     },
@@ -138,3 +138,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_prod")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+STATICFILES_FINDERS = [
+    # Required for CRAManifestFinder below to work
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    # A finder to pull in asset-manifest.json
+    "cra_helper.finders.CRAManifestFinder",
+]
+
+# Django CRA Helper settings
+CRA_APP_NAME = "frontend"
+# CRA_HOST = "0.0.0.0"  # hostname of CRA liveserver
+# CRA_PORT = 3000  # port of CRA liveserver
