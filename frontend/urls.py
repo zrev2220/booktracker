@@ -4,7 +4,7 @@ from .views import index
 
 urlpatterns = [
     # Default index template to render index.html
-    path('', index),
+    path("", index),
     # Helps Django pass unknown routes to the client-side router
-    re_path(r'^.*/$', index)
+    re_path(r"^.*/$", index),
 ]
