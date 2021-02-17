@@ -23,6 +23,7 @@ urlpatterns = [
     path("", include("frontend.urls")),
 ]
 
+# TODO check where these error handlers should go
 handler400 = "booktracker.errorviews.error400"
 handler403 = "booktracker.errorviews.error403"
 handler404 = "booktracker.errorviews.error404"

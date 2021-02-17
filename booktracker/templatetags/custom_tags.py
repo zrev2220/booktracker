@@ -1,3 +1,4 @@
+# TODO remove this tag and this folder
 from django import template
 from django.conf import settings
 

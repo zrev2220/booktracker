@@ -1,3 +1,4 @@
+# TODO remove this view
 from django.contrib.auth.views import LoginView
 
 
