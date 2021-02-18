@@ -47,8 +47,7 @@ jobs:
           key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pipenv-
-      - id: cache-npm
-        name: Cache npm
+      - name: Cache npm
         uses: actions/cache@v2
         with:
           path: ~/.npm
@@ -74,7 +73,6 @@ jobs:
           pipenv install --deploy --dev
       - name: Install npm Dependencies
         working-directory: ./frontend
-        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline
       - name: Build frontend
         working-directory: ./frontend
