@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     "cra_helper",
     "django.contrib.staticfiles",
     "frontend",
+    # TODO ↓ remove/revisit these app registrations if we don't need them
+    "books.apps.BooksConfig",
+    "people.apps.PeopleConfig",
 ]
 
 MIDDLEWARE = [
