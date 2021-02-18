@@ -73,16 +73,12 @@ jobs:
           pip install --upgrade pipenv
           pipenv install --deploy --dev
       - name: Install npm Dependencies
+        working-directory: ./frontend
         if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: |
-          cd frontend
-          npm ci --prefer-offline
-          cd ..
+        run: npm ci --prefer-offline
       - name: Build frontend
-        run: |
-          cd frontend
-          npm run build
-          cd ..
+        working-directory: ./frontend
+        run: npm run build
       - name: Run migrations
         run: pipenv run python manage.py migrate
         env:
