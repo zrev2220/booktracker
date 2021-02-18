@@ -39,8 +39,7 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v2
-      - id: cache-pipenv
-        name: Cache Pipenv
+      - name: Cache Pipenv
         uses: actions/cache@v2
         with:
           path: ~/.local/share/virtualenvs
@@ -67,7 +66,6 @@ jobs:
         with:
           node-version: '15'
       - name: Install Python Dependencies
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pip install --upgrade pipenv
           pipenv install --deploy --dev
