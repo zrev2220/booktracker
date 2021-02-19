@@ -1,31 +1,26 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>BookTracker</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>BookTracker</title>
 
-  {% if entrypoints %}
-    {% for file in entrypoints.css %}
-      <link href="{% static file %}" rel="stylesheet">
-    {% endfor %}
-  {% elif main_css %}
-    <link href="{% static main_css %}" rel="stylesheet">
-  {% endif %}
-</head>
-<body>
-<div id="root">
-  {#  React frontend gets rendered here  #}
-</div>
-{% if bundle_js %}
-  {% for file in bundle_js %}
+    {% if entrypoints %} {% for file in entrypoints.css %}
+    <link href="{% static file %}" rel="stylesheet" />
+    {% endfor %} {% elif main_css %}
+    <link href="{% static main_css %}" rel="stylesheet" />
+    {% endif %}
+  </head>
+  <body>
+    <div id="root">{# React frontend gets rendered here #}</div>
+    {% if bundle_js %} {% for file in bundle_js %}
     <script type="text/javascript" src="{{ file }}"></script>
-  {% endfor %}
-{% elif entrypoints %}
-  {% for file in entrypoints.js %}
+    {% endfor %} {% elif entrypoints %} {% for file in entrypoints.js %}
     <script type="text/javascript" src="{% static file %}"></script>
-  {% endfor %}
-{% endif %}
-</body>
+    {% endfor %} {% endif %}
+  </body>
 </html>

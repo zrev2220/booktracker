@@ -16,13 +16,23 @@
     "@types/node": "^14.14.28",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "@typescript-eslint/parser": "^4.15.1",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "node-sass": "^5.0.0",
+    "prettier": "^2.2.1",
     "typescript": "^4.1.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ignore-path ../.gitignore .",
+    "prettier": "prettier --ignnore-path ../.gitignore -u --write .",
+    "prettier-check": "prettier --ignnore-path ../.gitignore -u --check ."
   },
   "eslintConfig": {
     "extends": [
