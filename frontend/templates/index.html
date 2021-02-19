@@ -19,7 +19,15 @@
     <div id="root">{# React frontend gets rendered here #}</div>
     {% if bundle_js %} {% for file in bundle_js %}
     <script type="text/javascript" src="{{ file }}"></script>
-    {% endfor %} {% elif entrypoints %} {% for file in entrypoints.js %}
+    {% endfor %}
+    <!-- prettier-ignore -->
+    {# TODO raise issue with django-cra-helper: liveserver integration does not work without this script #}
+    <!--suppress JSUnresolvedLibraryURL -->
+    <script
+      type="text/javascript"
+      src="http://localhost:3000/static/js/vendors~main.chunk.js"
+    ></script>
+    {% elif entrypoints %} {% for file in entrypoints.js %}
     <script type="text/javascript" src="{% static file %}"></script>
     {% endfor %} {% endif %}
   </body>
