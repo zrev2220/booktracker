@@ -30,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ignore-path ../.gitignore .",
+    "lint": "eslint --ignore-path ../.gitignore --max-warnings 0 .",
     "prettier": "prettier --ignore-path ../.gitignore -u --write .",
     "prettier-check": "prettier --ignore-path ../.gitignore -u --check ."
   },
