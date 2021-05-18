@@ -89,7 +89,6 @@ jobs:
         working-directory: ./frontend
         run: |
           npm run lint
-          npm run prettier-check
       - name: Run Tests (npm)
         working-directory: ./frontend
         run: npm test
