@@ -68,6 +68,12 @@ jobs:
       - name: Install npm Dependencies
         working-directory: ./frontend
         run: npm ci --prefer-offline
+      - name: List npm dependencies
+        working-directory: ./frontend
+        run: npm ls eslint-plugin-node
+      - name: Check for missing dependency
+        working-directory: ./frontend
+        run: npm ls eslint-plugin-node
       - name: Build frontend
         working-directory: ./frontend
         run: npm run build
