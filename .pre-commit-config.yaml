@@ -22,11 +22,26 @@ repos:
       - id: eslint
         args:
           - --max-warnings=0
-        files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
+        files: \.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
         exclude: node_modules
-        types: [ file ]
+        types: [file]
         additional_dependencies:
           - "@typescript-eslint/eslint-plugin"
           - "@typescript-eslint/parser"
           - eslint-config-prettier
           - eslint-plugin-prettier
+  - repo: https://github.com/awebdeveloper/pre-commit-stylelint
+    rev: 0.0.2
+    hooks:
+      - id: stylelint
+        args:
+          - --fix
+          - --max-warnings=0
+        additional_dependencies:
+          - stylelint
+          - stylelint-prettier
+          - stylelint-scss
+          - stylelint-order
+          - stylelint-config-standard
+          - stylelint-config-sass-guidelines
+          - stylelint-config-prettier
